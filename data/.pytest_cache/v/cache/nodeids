@@ -1,0 +1,4 @@
+[
+  "test_user_account.py::TestUserAccount2::test_ByPwd",
+  "test_user_account.py::TestUserAccount2::test_yaml"
+]

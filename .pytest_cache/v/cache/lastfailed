@@ -1,0 +1,5 @@
+{
+  "data/test_user_account.py::TestUserAccount2::test_ByPwd": true,
+  "case/test_user_account.py::TestUserAccount::test_bypwd": true,
+  "case/test_user_account.py::TestLogin::test_login": true
+}

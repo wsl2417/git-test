@@ -1,0 +1,8 @@
+[
+  "case/test_user_account.py::TestLogin::test_login",
+  "case/test_user_account.py::TestUserAccount::test_bypwd",
+  "data/test_user_account.py::TestUserAccount2::test_ByPwd",
+  "data/test_user_account.py::TestUserAccount2::test_yaml",
+  "data/test_user_account.py::TestUserAccount::test_ByPwd",
+  "request_send/test_user_account.py::TestUserAccount2::test_ByPwd"
+]

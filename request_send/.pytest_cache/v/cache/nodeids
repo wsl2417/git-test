@@ -1,0 +1,8 @@
+[
+  "test_user_account.py::TestUserAccount2::test_ByPwd",
+  "test_user_account.py::TestUserAccount2::test_yaml",
+  "user_account.py::TestErrand::test_ByPwd",
+  "user_account.py::TestLogin::test_login",
+  "user_account.py::TestUserAccount::test_ByPwd",
+  "user_account.py::TestUserAccount::test_bypwd"
+]
