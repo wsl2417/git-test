@@ -1,0 +1,8 @@
+[
+  "test_uesr_account_loginout.py::TestLoginOut::test_login_out",
+  "test_user_account.py::TestLogin::test_change_pwd",
+  "test_user_account.py::TestLogin::test_login",
+  "test_user_account.py::TestLoginOut::test_login_out",
+  "test_user_account.py::TestUserAccount::test_ByPwd",
+  "test_user_account.py::TestUserAccount::test_bypwd"
+]

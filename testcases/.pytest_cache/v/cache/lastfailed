@@ -1,0 +1,6 @@
+{
+  "test_user_account.py::TestUserAccount": true,
+  "test_user_account.py::TestLoginOut::test_login_out": true,
+  "test_uesr_account_loginout.py::TestLoginOut": true,
+  "test_uesr_account_loginout.py::TestLoginOut::test_login_out": true
+}
