@@ -3,25 +3,27 @@ case_common:
   allureEpic: 蛋挞平台接口
   allureFeature: 用户模块
   allureStory: 账户接口
-
-user_login_01:
   url: /Pad/v3/Account/CheckLoginByPwd
   method: POST
-  detail: "正确的用户名和错误的密码"
   headers: {
     'Content-Type': 'application/json'
   }
-  #请求数据类型支持填写json,file,data,params或者为空
   requestType: json
+
+user_login_01:
+  detail: "正确的用户名和错误的密码"
+
+  #请求数据类型支持填写json,file,data,params或者为空
+
   #True或者为空都会执行
-  is_run: True
-#  case_tag: smoke
+#  is_run: True
+  case_tag: smoke
   data:
     - username: test001
     - password: Augmn@123
   assert:
-    assertMsg:
-    responseCode:
+    assertMsg: ""
+    responseCode: 200
 
 
 #  dependence_case: False

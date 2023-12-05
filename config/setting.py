@@ -9,8 +9,6 @@ def get_curr_path():
      :return: path
      '''
     curr_path = os.path.dirname(os.path.dirname(__file__))
-
-    # print('12313123', curr_path, end='\n')
     return curr_path
 
 def get_file_full_path(path):

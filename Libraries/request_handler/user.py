@@ -25,3 +25,4 @@ class User(RestClient):
         pass
 
 
+user = User(api_root_url)

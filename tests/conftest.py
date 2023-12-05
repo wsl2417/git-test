@@ -8,15 +8,16 @@ import allure
 from Libraries.request_handler import user
 
 
-CURR_PATH = get_curr_path()
+# CURR_PATH = get_curr_path()
 # data = GetYamlData()
-
+BASE_PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 def get_test_data(yaml_file_name) -> dict:
     try:
-        # get_file_full_pat
-        current_dir = os.path.dirname(os.path.abspath('data/Example'))#获取当前路径
-
-        data_file_path = os.path.join(current_dir, "Example", yaml_file_name)
+        # current_dir = os.getcwd()
+        # current_dir = os.path.dirname(os.path.abspath('data/Example'))#获取当前路径
+        # print(current_dir)
+        # path = os.path.relpath('data/Example', current_dir)
+        data_file_path = os.path.join(BASE_PATH, "tests/data/Example", yaml_file_name)
         yaml_data = data.get_yaml_data(data_file_path)
     except Exception as ex:
         pytest.skip(str(ex))
@@ -24,7 +25,7 @@ def get_test_data(yaml_file_name) -> dict:
         return yaml_data
 #
 #
-example_data = get_test_data("login_example.yaml")
+login_data = get_test_data("login_example.yaml")
 # api_data = get_test_data("api_test_data.yml")
 # scenario_data = get_test_data("scenario_test_data.yml")
 @allure.step("通用前置步骤")
