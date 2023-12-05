@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-该模块用来校验填写的yaml数据符合规范
+该模块用来解析yaml用例数据
 #@Author: llian
 """
 import os.path
-
+import pytest
 from get_yaml_data import GetYamlData
+from Libraries import COMMON_CONFIG
+from config.setting import get_curr_path
 
-class VerifyYamlData:
+class PhaseCaseData:
     def __init__(self,file_path):
         self.file_path = file_path
 
@@ -20,7 +22,3 @@ class VerifyYamlData:
 
     def case_verify(self):
         pass
-
-
-
-    data = GetYamlData.get_yaml_data()

@@ -1,5 +1,8 @@
 host: https://trade-testing.casamiel.cn
 
+base_username: test001
+base_password: Augmn@123456
+
 mysql_connection:
   host: 192.168.0.21
   user: dev_casamiel

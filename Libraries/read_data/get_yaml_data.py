@@ -34,6 +34,5 @@ class GetYamlData:
 data = GetYamlData()
 
 if __name__=="__main__":
-
     GetYamlData.get_yaml_data()
 
