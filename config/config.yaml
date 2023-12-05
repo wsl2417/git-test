@@ -1,0 +1,8 @@
+host: https://trade-testing.casamiel.cn
+
+mysql_connection:
+  host: 192.168.0.21
+  user: dev_casamiel
+  password: Vv7XaBvQagWIo7NB
+  database: dev_casamiel_db
+  port: 1433

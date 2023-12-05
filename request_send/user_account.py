@@ -2,7 +2,7 @@
 import json
 import requests
 import pytest
-from ks_mini.config.url_base import Test_Url
+from config.url_base import Test_Url
 
 global_response = None
 
