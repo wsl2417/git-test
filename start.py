@@ -13,11 +13,9 @@ def run():
     # current_dir = os.path.dirname(os.path.abspath('data'))  # 获取当前路径
     pytest.main(['-s', '-W', 'ignore:Module already imported:pytest.PytestWarning',
                  '--alluredir', './output/result',"--clean-alluredir"])
-    '''
-    
-    '''
-    # os.system(r'allure generate ./output/result -o ./output/html --clean')
-    # os.system(r"allure serve ./output/result")
+
+    os.system(r'allure generate ./output/result -o ./output/html --clean')
+    os.system(r"allure serve ./output/result")
 
 if __name__=='__main__':
     run()

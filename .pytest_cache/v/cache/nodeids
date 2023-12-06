@@ -5,5 +5,7 @@
   "data/test_user_account.py::TestUserAccount2::test_yaml",
   "data/test_user_account.py::TestUserAccount::test_ByPwd",
   "request_send/test_user_account.py::TestUserAccount2::test_ByPwd",
-  "tests/testcases/test_user_account.py::TestLogin::test_login"
+  "tests/testcases/test_user_account.py::TestLogin::test_login",
+  "tests/testcases/user/test_user_login.py::TestUserLogin::test_user_login",
+  "tests/testcases/user/test_user_login.py::TestUserLogin::test_user_login[test001-Augmn@123456-True-0-]"
 ]

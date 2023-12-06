@@ -27,10 +27,10 @@ class RestClient():
     def request(self, url, method, data=None, json=None, **kwargs):
         url = self.api_root_url + url
         headers = dict(**kwargs).get("headers")
-        # params = dict(**kwargs).get("params")
+        params = dict(**kwargs).get("params")
         # files = dict(**kwargs).get("params")
         # cookies = dict(**kwargs).get("params")
-        self.request_log(url, method, data, json, headers)
+        self.request_log(url, method, data, json, params, headers)
         if method == "GET":
             return self.session.get(url, **kwargs)
         if method == "POST":

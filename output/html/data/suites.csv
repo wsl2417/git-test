@@ -1,0 +1,2 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Wed Dec 06 23:49:12 CST 2023","Wed Dec 06 23:49:12 CST 2023","180","tests.testcases.user","test_user_login","TestUserLogin","","","正确的用户名和正确的密码登录成功",""

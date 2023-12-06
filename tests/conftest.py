@@ -12,15 +12,15 @@ from Libraries.api import user
 # data = GetYamlData()
 # BASE_PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
-@pytest.fixture(scope="session")
-def work_path():
-    curr_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-    return curr_path
+# @pytest.fixture(scope="session")
+# def work_path():
+#     curr_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+#     return curr_path
 
-
+# @pytest.fixture(scope="session")
 def get_test_data(yaml_file_name) -> dict:
     try:
-        data_file_path = os.path.join(str(work_path), "tests/data/用户", yaml_file_name)
+        data_file_path = os.path.join(get_curr_path(), "tests/data", yaml_file_name)
         yaml_data = data.get_yaml_data(data_file_path)
     except Exception as ex:
         pytest.skip(str(ex))
@@ -30,16 +30,15 @@ def get_test_data(yaml_file_name) -> dict:
 
 #
 #
-login_data = get_test_data("login_example.yaml")
+# login_data = get_test_data("user/login_example.yaml")
+login_data = get_test_data("user/api_data.yaml")
 
 
-# delivery_data =
-
-def pytest_configure(config):
-    config.addinivalue_line("markers", "smoke: 冒烟测试")
-    config.addinivalue_line("markers", "normal: 回归测试")
-    config.addinivalue_line("markers", "not-run: 不跑")
-    config.addinivalue_line("markers", "not-ready: 用例未准备好")
+# def pytest_configure(config):
+#     config.addinivalue_line("markers", "smoke: 冒烟测试")
+#     config.addinivalue_line("markers", "normal: 回归测试")
+#     config.addinivalue_line("markers", "not-run: 不跑")
+#     config.addinivalue_line("markers", "not-ready: 用例未准备好")
 
 
 # api_data = get_test_data("api_test_data.yml")
@@ -81,7 +80,7 @@ def clear_report():
     pass
 
 
-@pytest.fixture(scope="function", autouse=True)
+@pytest.fixture(scope="function", autouse=False)
 def case_skip():
     pass
 
@@ -89,5 +88,6 @@ def case_skip():
 if __name__ == "__main__":
     # print("base_data",CURR_PATH)
     # result = get_test_data("login_example.yaml")
-    result = login_fixture
-    print('yaml_data', result)
+    # result = login_fixture
+    # print('yaml_data', login_data)
+    pytest.main()

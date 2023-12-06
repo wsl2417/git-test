@@ -1,0 +1,4 @@
+test_user_login:
+  #用户名，密码，期望结果，期望返回码，期望消息
+  #username, password, expect_result, expect_code, expect_msg
+  - ["test001","Augmn@123456", True, 0, ""]

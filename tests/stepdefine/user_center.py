@@ -1,8 +1,11 @@
+import json
+
 from Libraries.api.user import user
 from Libraries.other_tools.result_item import ResultItem
 from Libraries import COMMON_CONFIG
 # import requests
-from phase_response import phase
+from tests.stepdefine.phase_response import phase
+
 
 
 def login_user(username, password):
@@ -14,10 +17,10 @@ def login_user(username, password):
     """
     # root_url = COMMON_CONFIG["host"]
     # url = root_url + "/Pad/v3/Account/CheckLoginByPwd"
-    payload = {
-        "username": username,
+    payload = json.dumps({
+        "userName": username,
         "password": password
-    }
+    })
     header = {
         'Content-Type': 'application/json'
     }

@@ -21,8 +21,8 @@ class PhaseCaseData:
             raise FileExistsError("用例文件不存在")
 
     @staticmethod
-    def case_data():
-        data_dict = yaml_data.get_yaml_data(file_path)
+    def case_data(cls):
+        data_dict = yaml_data.get_yaml_data(cls.file_path)
         # case_ids = []
         # for key, value in data_dict.items():
         #     case_ids.append(key)

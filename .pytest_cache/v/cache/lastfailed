@@ -3,5 +3,10 @@
   "case/test_user_account.py::TestUserAccount::test_bypwd": true,
   "case/test_user_account.py::TestLogin::test_login": true,
   "testcases/test_uesr_account_loginout.py": true,
-  "testcases/test_user_account.py": true
+  "testcases/test_user_account.py": true,
+  "tests/testcases/test_uesr_account_loginout.py": true,
+  "tests/testcases/用户/test_login.py": true,
+  "tests/testcases/test_user_account.py::TestLogin::test_login": true,
+  "tests/testcases/test_login_example.py::TestLoginExample": true,
+  "tests/testcases/user/test_user_login.py::TestUserLogin::test_user_login": true
 }
