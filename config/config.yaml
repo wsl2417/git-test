@@ -1,4 +1,7 @@
 host: https://trade-testing.casamiel.cn
+#user:
+#  - username: test001
+#  - base_password: 123456
 
 base_username: test001
 base_password: Augmn@123456

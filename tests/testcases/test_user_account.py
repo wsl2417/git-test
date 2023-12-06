@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from Libraries.request_handler.read_file_yaml import GetDataYaml
+from Libraries.api.read_file_yaml import GetDataYaml
 from request_send.user_account import UserAccount, UserAccountLoginOUt, UserAccountChangePassword
 import allure
 import pytest

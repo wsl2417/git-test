@@ -11,17 +11,16 @@ import yaml
 class GetYamlData:
     # file_path = None
 
-    def __init__(self):
-        pass
-        # self.file_path = file_path
+    # def __init__(self,file_path):
+    #     self.file_path = file_path
 
     def get_yaml_data(self,file_path) -> dict:
         """
         获取yaml中的数据
         :return:
         """
-        if os.path.exists(file_path):
-            data = open(file_path, encoding='utf-8')
+        if os.path.exists(self.file_path):
+            data = open(self.file_path, encoding='utf-8')
             result = yaml.load(data, Loader=yaml.FullLoader)
         else:
             raise FileExistsError("文件路径不存在")
@@ -29,6 +28,9 @@ class GetYamlData:
 
 #更改输入数据某字段值
     def write_yaml_data(self, key, value):
+        pass
+
+    def get_case_ids(self,case_data):
         pass
 
 data = GetYamlData()
