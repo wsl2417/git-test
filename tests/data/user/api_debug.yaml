@@ -1,0 +1,22 @@
+test_user_login:
+  -
+    case_id: user_login_01
+    description: &case_title1 "正确的用户名和错误的密码"
+    case_tag: smoke
+    data:
+      - username: test001
+      - password: Augmn@123
+      - result: True
+      - assertMsg: ""
+      - responseCode: 200
+      - title: *case_title1
+  - case_id: user_login_02
+    description: &case_title2 "错误的用户名和正确的密码"
+    case_tag: smoke
+    data:
+      - username: test0
+      - password: Augmn@123456
+      - result: False
+      - assertMsg: "用户名或者登录密码错误"
+      - responseCode: 1010002
+      - title: *case_title2

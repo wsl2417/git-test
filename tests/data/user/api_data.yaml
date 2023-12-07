@@ -1,0 +1,5 @@
+test_user_login:
+  #用户名，密码，期望结果，期望返回码，期望消息
+  #title,username, password, expect_result, expect_code, expect_msg
+  - ["正确的用户名和正确的密码","test001","Augmn@123456", True, 0, ""]
+  - ["空用户名和空密码","","", False, 1010001, "请输入用户名或者密"]

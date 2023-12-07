@@ -1,0 +1,22 @@
+login_01（正确的用户名和错误的密码）:
+  userName: test001
+  password: Augmn@123
+login_02（错误的用户名和正确的密码）:
+    userName: test002
+    password: Augmn@123456
+
+login_03（错误的用户名和错误的密码）:
+    userName: test002
+    password: Augmn@123
+login_04（正确的用户名和密码为空）:
+    userName: test002
+    password:
+login_05（用户名为空和正确的密码）:
+  userName:
+  password: Augmn@123456
+login_06（用户名和正确都为空）:
+  userName:
+  password:
+login_07（正确的用户名和正确的密码）:
+  userName: test001
+  password: Augmn@123456

@@ -1,6 +1,0 @@
-{
-  "user_account.py::TestLogin": true,
-  "user_account.py::TestLogin::test_login": true,
-  "test_user_account.py::TestUserAccount2::test_yaml": true,
-  "user_account.py": true
-}
