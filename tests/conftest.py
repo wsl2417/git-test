@@ -6,7 +6,8 @@ from config.setting import get_curr_path
 import pytest
 import allure
 from Libraries.api import user
-
+from Libraries.log_generator.logger import logger
+from Libraries.read_data.phase_yaml_to_param import combine_case_data
 
 # CURR_PATH = get_curr_path()
 # data = GetYamlData()
@@ -31,7 +32,7 @@ def get_test_data(yaml_file_name) -> dict:
 #
 #
 # login_data = get_test_data("user/login_example.yaml")
-login_data = get_test_data("user/api_debug.yaml")
+login_data = get_test_data("user/atomic_api_data.yaml")
 
 
 # def pytest_configure(config):
@@ -86,7 +87,17 @@ def clear_report():
     # if is_run[-1] is False:
     #     pytest.skip()
 
+@pytest.fixture(scope="function")
+def testcase_data(request):
+    testcase_name = request.function.__name__
+    logger.debug(testcase_name)
+    return testcase_name
 
+@allure.step("前置条件 ==> 测试用例数据准备")
+def prepare_data(testcase_data):
+    case_key = testcase_data
+    pytest_data = combine_case_data(login_data,case_key)
+    return pytest_data
 
 if __name__ == "__main__":
     # print("base_data",CURR_PATH)

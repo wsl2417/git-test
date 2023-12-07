@@ -10,14 +10,6 @@ import yaml
 
 
 class GetYamlData:
-    # file_path = None
-
-    # def __init__(self,file_path):
-    #     self.file_path = file_path
-
-    # def __init__(self):
-    #     self.file_path =
-
     def get_yaml_data(self, file_path) -> dict:
         """
         获取yaml中的数据

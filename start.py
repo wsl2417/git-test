@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 '''
 跑用例入口文件
+用例入口路径可在pytest.ini配置
 执行：python start.py
 '''
 
 import os
 import pytest
-import allure
-# import
+# import allure
+
 def run():
-    # current_dir = os.path.dirname(os.path.abspath('data'))  # 获取当前路径
     pytest.main(['-s', '-W', 'ignore:Module already imported:pytest.PytestWarning',
                  '--alluredir', './output/result',"--clean-alluredir"])
 
