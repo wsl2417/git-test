@@ -31,7 +31,7 @@ def get_test_data(yaml_file_name) -> dict:
 #
 #
 # login_data = get_test_data("user/login_example.yaml")
-login_data = get_test_data("user/api_data.yaml")
+login_data = get_test_data("user/api_debug.yaml")
 
 
 # def pytest_configure(config):
@@ -80,11 +80,11 @@ def clear_report():
     pass
 
 
-@pytest.fixture(scope="function", autouse=False)
-def case_skip(request):
-    is_run = request.param
-    if is_run[-1] is False:
-        pytest.skip()
+# @pytest.fixture(scope="function", autouse=False)
+# def case_skip(request):
+    # is_run = request.param
+    # if is_run[-1] is False:
+    #     pytest.skip()
 
 
 
@@ -92,5 +92,5 @@ if __name__ == "__main__":
     # print("base_data",CURR_PATH)
     # result = get_test_data("login_example.yaml")
     # result = login_fixture
-    # print('yaml_data', login_data)
-    pytest.main()
+    print('yaml_data', login_data)
+    # pytest.main()

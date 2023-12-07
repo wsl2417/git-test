@@ -19,12 +19,12 @@ user_login_01:
   case_tag: smoke
   data:
     # username, password, expect_result, expect_code, expect_msg
-    - ["test001","Augmn@123456", True, 0, ""]
-#    - username: test001
-#    - password: Augmn@123
-#    - result: True
-#    - assertMsg: ""
-#    - responseCode: 200
+#    - ["test001","Augmn@123456", True, 0, ""]
+    - username: test001
+    - password: Augmn@123
+    - result: True
+    - assertMsg: ""
+    - responseCode: 200
 
 
 #  dependence_case: False

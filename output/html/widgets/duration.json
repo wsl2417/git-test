@@ -1,1 +1,0 @@
-[{"uid":"e079467e1be859b7","name":"正确的用户名和正确的密码","time":{"start":1701930039555,"stop":1701930039736,"duration":181},"status":"passed","severity":"critical"},{"uid":"d305387a0c84bd9f","name":"空用户名和空密码","time":{"start":1701930039756,"stop":1701930039890,"duration":134},"status":"passed","severity":"critical"}]
