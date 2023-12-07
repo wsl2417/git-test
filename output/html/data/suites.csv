@@ -1,2 +1,15 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Wed Dec 06 23:49:12 CST 2023","Wed Dec 06 23:49:12 CST 2023","180","tests.testcases.user","test_user_login","TestUserLogin","","","正确的用户名和正确的密码登录成功",""
+"passed","Thu Dec 07 14:20:39 CST 2023","Thu Dec 07 14:20:39 CST 2023","181","tests.testcases.user","test_user_login","TestUserLogin","","","正确的用户名和正确的密码","
+        根据输入的yaml：step1.解析用例数据,对用例数据加工重组，还需要加入case_id todo//
+        step2.封装好reqeust操作 done
+        step3. 配置好用例的setup/teardown ongoing
+        step4. 发送请求并解析结果 done
+        step5. 对结果断言以及打印log和封装report信息
+        "
+"passed","Thu Dec 07 14:20:39 CST 2023","Thu Dec 07 14:20:39 CST 2023","134","tests.testcases.user","test_user_login","TestUserLogin","","","空用户名和空密码","
+        根据输入的yaml：step1.解析用例数据,对用例数据加工重组，还需要加入case_id todo//
+        step2.封装好reqeust操作 done
+        step3. 配置好用例的setup/teardown ongoing
+        step4. 发送请求并解析结果 done
+        step5. 对结果断言以及打印log和封装report信息
+        "

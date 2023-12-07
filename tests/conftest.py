@@ -81,8 +81,11 @@ def clear_report():
 
 
 @pytest.fixture(scope="function", autouse=False)
-def case_skip():
-    pass
+def case_skip(request):
+    is_run = request.param
+    if is_run[-1] is False:
+        pytest.skip()
+
 
 
 if __name__ == "__main__":

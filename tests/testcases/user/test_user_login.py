@@ -32,31 +32,42 @@ def step_2(expect_code, response_code):
 #     else:
 #         logger.error("用例加载失败！请检查参数文件参数：[{}]".format(file))
 
+@pytest.fixture(scope="function")
+def testcase_data(request):
+    testcase_name = request.function.__name__
+    logger.debug(testcase_name)
+    return login_data.get(testcase_name)
+
+
 
 @allure.severity(allure.severity_level.CRITICAL)
 @allure.epic("蛋挞平台接口测试")
 @allure.feature("用户模块")
 class TestUserLogin:
     @allure.story("用户登录接口")
+    # @allure.
     # @allure.title("测试数据 {username}, {password}, {except_result}, {except_code}, {except_msg}")
-    @allure.title("正确的用户名和正确的密码登录成功")
+    # @allure.title("正确的用户名和正确的密码登录成功")
     @pytest.mark.smoke
-    @pytest.mark.parametrize("username, password, expect_result, expect_code, expect_msg",
+    @pytest.mark.parametrize("title,username, password, expect_result, expect_code, expect_msg",
                              login_data['test_user_login'])
-    def test_user_login(self, username, password, expect_result, expect_code, expect_msg):
+    # @pytest.mark.parametrize("testcase_data", login_data, indirect=True)
+    def test_user_login(self, title,username, password, expect_result, expect_code, expect_msg):
     # def test_user_login(self, testcase_data):
-
-        # 根据输入的yaml：step1.解析用例数据,对用例数据加工重组，还需要加入case_id todo//
-        # step2.封装好reqeust操作 done
-        # step3. 配置好用例的setup/teardown ongoing
-        # step4. 发送请求并解析结果 done
-        # step5. 对结果断言以及打印log和封装report信息
+        """
+        根据输入的yaml：step1.解析用例数据,对用例数据加工重组，还需要加入case_id todo//
+        step2.封装好reqeust操作 done
+        step3. 配置好用例的setup/teardown ongoing
+        step4. 发送请求并解析结果 done
+        step5. 对结果断言以及打印log和封装report信息
+        """
+        allure.dynamic.title(title)
         logger.info("==========开始执行用例=========")
         # username,password,expect_result, expect_code, expect_msg = testcase_data
+        # res = testcase_data
+        # print(res)
         step_1(username)
         result = login_user(username, password)
-        # with allure.step("第二步 ==>> 用户登录结果校验"):
-        # logger.info("用户登录：{}".format(username))
         assert result.success == expect_result, result.error
         step_2(expect_code, result.response.json().get("code"))
         # with allure.step("第二步 ==>> 用户登录结果验证成功"):
