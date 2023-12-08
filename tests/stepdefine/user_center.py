@@ -31,8 +31,17 @@ def login_user(username, password):
     return result_object
 
 
-def logout_user():
-    pass
+def logout_user(token):
+    payload = json.dumps({
+        "token": token
+    })
+    header = {
+        'token': token,
+        'Content-Type': 'application/json'
+    }
+    res = user.login(data=payload, headers=header)
+    result_object = phase.phase_res(res)
+    return result_object
 
 
 def change_pwd():
