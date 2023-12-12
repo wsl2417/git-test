@@ -2,3 +2,4 @@ output
 Libraries/log
 .pytest_cache
 .idea
+.DS_Store

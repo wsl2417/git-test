@@ -3,6 +3,7 @@
 import os
 from typing import Text
 
+
 def get_curr_path():
     '''
      获取当前根目录
@@ -10,6 +11,7 @@ def get_curr_path():
      '''
     curr_path = os.path.dirname(os.path.dirname(__file__))
     return curr_path
+
 
 def get_file_full_path(path):
     """兼容 windows 和 linux 不同环境的操作系统路径 """
@@ -22,9 +24,7 @@ def get_file_full_path(path):
     return get_curr_path() + path
 
 
-
-
-if __name__=="__main__":
+if __name__ == "__main__":
     # path = get_curr_path()
     result = get_file_full_path('/tests')
-    print('result',result)
+    print('result', result)
