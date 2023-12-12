@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 该模块用来读取yaml
-#@Author: llian
+#@Author: 连莲
 """
 
 import os

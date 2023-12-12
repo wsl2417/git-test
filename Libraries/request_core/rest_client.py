@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Time   : 2023/12/6
+# @Author : 连莲
+
+
 import requests
 import json as jsonfunc
 from Libraries.log_generator.logger import logger

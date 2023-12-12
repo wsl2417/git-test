@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# @Author: 连莲
 
 import allure
 import pytest
 from tests.stepdefine import user_center
-from tests.conftest import login_data
+from tests.conftest import test_data
 from Libraries.log_generator.logger import logger
 from Libraries.read_data.phase_yaml_to_param import combine_case_data
 
-in_data = combine_case_data(login_data, 'test_user_login')
-out_data = combine_case_data(login_data, 'test_user_logout')
+in_data = combine_case_data(test_data, 'test_user_login')
+out_data = combine_case_data(test_data, 'test_user_logout')
 
 
 @allure.step("第一步 ==>> 发送用户登录请求")
@@ -23,9 +24,9 @@ def step_2(expect_code, response_code):
 
 
 @allure.step("加载用户数据...")
-def load_step(username, password, expect_result, expect_code, expect_msg):
+def load_step(username, expect_result, expect_code, expect_msg):
     logger.debug(
-        "用户名:{}, 密码:{}, 期望结果: {}, 期望返回码: {}, 期望消息: {}".format(username, password, expect_result,
+        "用户名:{}, 期望结果: {}, 期望返回码: {}, 期望消息: {}".format(username, expect_result,
                                                                                 expect_code, expect_msg))
 
 
@@ -43,12 +44,12 @@ class TestUserLogin:
         """
         allure.dynamic.title(title)
         logger.info("==========开始执行用例=========")
-        load_step(username, password, expect_result, expect_code, expect_msg)
+        load_step(username, expect_result, expect_code, expect_msg)
         step_1(username)
         result = user_center.login_user(username, password)
         assert result.success == expect_result, result.error
-        step_2(expect_code, result.response.json().get("code"))
-        assert result.response.json().get("code") == expect_code
+        step_2(expect_code, result.code)
+        assert result.code == expect_code
         assert expect_msg in result.msg
         logger.info("==========用例执行结束=========")
 
@@ -60,11 +61,26 @@ class TestUserLogin:
         测试用户登出接口，前置条件：用户登录成功
         """
         allure.dynamic.title(title)
-        res = login_fixture
-        print('token', res.token)
-        result = user_center.logout_user(res.token)
-        logger.info(result)
-    # assert
+        token = login_fixture
+        logger.debug("user longin token {}".format(token))
+        with allure.step("前置测试步骤 ==> 用户登录成功"):
+            logger.debug('用户名: {}'.format(username))
+        result = user_center.logout_user(token)
+        with allure.step("用户请求登出"):
+            logger.debug("请求登出结果：{}".format(result.success))
+        assert result.success == expect_result, result.error
+        step_2(expect_code, result.code)
+        assert result.code == expect_code
+        assert expect_msg in result.msg
+
+    # @allure.story("用户退出登录失败")
+    # @pytest.mark.smoke
+    # @pytest.mark.parametrize("username, expect_result, expect_msg, expect_code, title", out_data)
+    # def test_logout_failed(self,expect_result,expect_msg, expect_code, title):
+    #     pass
+    #
+    # def test_change_password(self):
+    #     pass
 
 
 if __name__ == "__main__":

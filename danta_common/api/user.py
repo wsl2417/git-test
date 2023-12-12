@@ -1,6 +1,11 @@
-import requests
-from Libraries import COMMON_CONFIG
-from Libraries.api.rest_client import RestClient
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Time   : 2023/12/6
+# @Author : 连莲
+
+
+from danta_common import COMMON_CONFIG
+from Libraries.request_core.rest_client import RestClient
 
 api_root_url = COMMON_CONFIG["host"]
 

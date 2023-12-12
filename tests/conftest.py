@@ -1,12 +1,11 @@
 import json
-import logging
 import os
 from Libraries.read_data.get_yaml_data import data
-from Libraries import COMMON_CONFIG
-from config.setting import get_curr_path
+from danta_common import COMMON_CONFIG
+from Libraries.other_tools.setting import get_curr_path
 import pytest
 import allure
-from Libraries.api.user import user
+from danta_common.api.user import user
 from Libraries.log_generator.logger import logger
 from Libraries.read_data.phase_yaml_to_param import combine_case_data
 from tests.stepdefine.phase_response import phase
@@ -25,7 +24,7 @@ def get_test_data(yaml_file_name) -> dict:
 #
 #
 # login_data = get_test_data("user/login_example.yaml")
-login_data = get_test_data("atomic_api_data.yaml")
+test_data = get_test_data("atomic_api_data.yaml")
 
 
 # def pytest_configure(config):
@@ -64,8 +63,40 @@ def login_fixture():
     login_res = user.login(data=payload, headers=header)
     # print_login(username, loginInfo)
     result_object = phase.phase_res(login_res)
+    logger.debug('用户token: {}'.format(result_object.result['token']))
+
     # yield loginInfo.json()
-    return result_object
+    # def finalizer():
+    #     logout_fixture(result_object.result['token'])
+    # request.addfinalizer(finalizer())
+    return result_object.result['token']
+
+
+# def teardown(token):
+#     logout_fixture(token)
+
+def demo():
+    print(login_fixture())
+
+
+# @pytest.fixture(scope="session")
+@allure.step("通用后置步骤 ==> 用户登出")
+def logout_fixture(token):
+    header = {
+        'Content-Type': 'application/json',
+        'token': token
+    }
+    payload = json.dumps({
+        "token": token
+    })
+    logout_res = user.logout(data=payload, headers=header)
+    result_object = phase.phase_res(logout_res)
+    if result_object.success:
+        with allure.step("后置条件 ==> 用户登出成功"):
+            logger.info("用户登出成功！")
+    else:
+        with allure.step("后置条件 ==> 用户登出失败"):
+            logger.error("用户登出失败")
 
 
 @pytest.fixture(scope="session", autouse=False)
@@ -90,7 +121,7 @@ def testcase_data(request):
 @allure.step("前置条件 ==> 测试用例数据准备")
 def prepare_data(testcase_data):
     case_key = testcase_data
-    pytest_data = combine_case_data(login_data, case_key)
+    pytest_data = combine_case_data(test_data, case_key)
     return pytest_data
 
 
@@ -98,5 +129,6 @@ if __name__ == "__main__":
     # print("base_data",CURR_PATH)
     # result = get_test_data("login_example.yaml")
     # result = login_fixture
-    print('yaml_data', login_data)
+    # print('yaml_data', login_data)
     # pytest.main()
+    demo(login_fixture)

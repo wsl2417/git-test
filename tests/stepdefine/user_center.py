@@ -1,11 +1,8 @@
 import json
 
-from Libraries.api.user import user
-from Libraries.other_tools.result_item import ResultItem
-from Libraries import COMMON_CONFIG
+from danta_common.api.user import user
 # import requests
 from tests.stepdefine.phase_response import phase
-
 
 
 def login_user(username, password):
@@ -39,7 +36,7 @@ def logout_user(token):
         'token': token,
         'Content-Type': 'application/json'
     }
-    res = user.login(data=payload, headers=header)
+    res = user.logout(data=payload, headers=header)
     result_object = phase.phase_res(res)
     return result_object
 

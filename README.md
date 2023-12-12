@@ -1,6 +1,5 @@
 # ta-casamiel-store-operation-test
 
-_[TOC]_
 
 ## 框架简介
 本框架是基于Python + pytest + allure + log + yaml实现的接口自动化框架，后续还会集成钉钉通知和Jenkins。
@@ -32,15 +31,16 @@ _[TOC]_
 
 ```
 ├── Libraries               //通用工具类
-│   ├── api                 //各个接口的request请求库 ONGOING
-│   ├── db_connection       //数据库连接相关库 TODO
+│   ├── db_connection       //数据库连接相关工具 TODO
 │   ├── log_generator       //日志库 DONE
 │   ├── notifications       //发送钉钉通知 TODO
-│   ├── other_tools         //通用工具
-│   └── read_data           //读取yaml数据文件
-├── config                  //公共配置
-│   ├── config.yaml         //数据库连接，admin账户等配置
-│   └── setting.py          //获取项目根目录
+│   ├── other_tools         //一般通用工具
+│   ├── read_data           //读取yaml数据
+│   └── request_core        //request库封装
+├── danta_common            //蛋挞项目通用工具
+│   ├── api                 //接口封装
+│   └── config.yaml         //数据库，admin用户等配置
+├── log                     //日志库
 ├── output                  //allure测试报告输出路径
 │   ├── html
 │   └── result
@@ -88,7 +88,7 @@ test_user_login:
 4. case_tag: 测试用例的标签，用来自动配置该用例哪些场景下跑
 5. data: 用例的传参，注意顺序和测试用例的传入顺序一致
 
-
+_[TOC]_
 
 
 

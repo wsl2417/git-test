@@ -29,3 +29,25 @@ test_user_logout:
       - assertMsg: ""
       - responseCode: 0
       - title: "用户正常退出"
+
+test_get_base_info:
+  - case_id: get_base_info_01
+    case_tag: smoke
+    data:
+      - result: True
+      - assertMsg: ""
+      - responseCode: 0
+      - title: "成功获取门店基本信息"
+
+
+test_modify_store_info:
+  - case_id: store_modify_01
+    case_tag: smoke
+    data:
+      - update_info:
+          isCakeClose: 1
+          isSelfTake: 1
+      - result: True
+      - assertMsg: ""
+      - responseCode: 0
+      - title: "关闭蛋糕商城且不可自提"

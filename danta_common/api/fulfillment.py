@@ -1,5 +1,5 @@
-from Libraries import COMMON_CONFIG
-from Libraries.api.rest_client import RestClient
+from danta_common import COMMON_CONFIG
+from Libraries.request_core.rest_client import RestClient
 
 api_root_url = COMMON_CONFIG["host"]
 
