@@ -17,7 +17,7 @@ def _generate_param(data_list):
     data = []
     data_list = [list(i.values()) for i in data_list]
     print('data list', data_list)
-    data_with_tag = [(item[2], item[3]) for item in data_list]
+    data_with_tag = [(item[1], item[2]) for item in data_list]
     print('data with tag', data_with_tag)
     for i in data_with_tag:
         print('iiii', i[1])

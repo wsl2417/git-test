@@ -1,6 +1,11 @@
-import requests
-from Libraries import COMMON_CONFIG
-from Libraries.api.rest_client import RestClient
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Time   : 2023/12/6
+# @Author : 连莲
+
+
+from danta_common import COMMON_CONFIG
+from Libraries.request_core.rest_client import RestClient
 
 api_root_url = COMMON_CONFIG["host"]
 
@@ -8,7 +13,6 @@ api_root_url = COMMON_CONFIG["host"]
 class User(RestClient):
     def __init__(self, api_root_url):
         super(User, self).__init__(api_root_url)
-        # self.root_url = COMMON_COFIG.get("host")
         # self.base_username = COMMON_COFIG.get("base_username")
         # self.base_password = COMMON_COFIG.get("base_password")
 
