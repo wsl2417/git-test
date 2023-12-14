@@ -38,7 +38,7 @@ class Logger:
         self.console.setFormatter(self.console_formatter)
         self.file_logger.setLevel(logging.DEBUG)
         # self.file_logger.setFormatter(self.file_format)
-        self.file_logger.setFormatter(self.console_formatter)
+        self.file_logger.setFormatter(self.file_format)
 
         self.logger.addHandler(self.console)
         self.logger.addHandler(self.file_logger)

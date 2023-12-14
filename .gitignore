@@ -1,5 +1,5 @@
 output
-Libraries/log
+log
 .pytest_cache
 .idea
 .DS_Store
