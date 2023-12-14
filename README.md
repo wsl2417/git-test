@@ -2,7 +2,7 @@
 
 
 ## 框架简介
-本框架是基于Python + pytest + allure + log + yaml实现的接口自动化框架，后续还会集成钉钉通知和Jenkins。
+本框架是基于Python + pytest + allure + log + yaml实现的接口自动化框架，后续还会集成钉钉通知，用例执行结果统计分析。
 
 ## 安装与使用
 
