@@ -51,3 +51,69 @@ test_modify_store_info:
       - assertMsg: ""
       - responseCode: 0
       - title: "关闭蛋糕商城且不可自提"
+
+test_order_detail:
+  -
+    case_id: order_detail_01
+    case_tag: smoke
+    data:
+      - orderNo: "231211141725610113"
+      - result: True
+      - assertMsg: ""
+      - responseCode: 0
+      - title: "订单管理-获取订单详细信息"
+
+test_add_product_by_correct_user:
+  -
+    #该测试集中只测试单个接口功能，一整条线路的场景测试放在scenario_data.yaml中去加
+    #加入了一个商品，断言结束后是否加一个减少购物车商品？
+    case_id: add_product_by_correct_user_01
+    case_tag: smoke
+    data:
+      - items:
+          -
+            #有数据库连接后最好是在数据库中插入一条商品数据，保证这个商品的类目和数量准确
+            #虽然传入参数只有cartID但是需要有效的token,所以前置条件需要有有效的登录再找到对应的cartID
+            skuCode: "928"
+            itemNum: 1
+      - result: True
+      - asserMsg: "ok"
+      - responseCode: 0
+      - title: "用户往购物车添加商品成功"
+  - case_id: add_product_by_correct_user_02
+    #正确的用户，添加不存在、{错误数量的商品目前没有校验}
+    case_tag: normal
+    data:
+      - items:
+          -
+            skuCode: "0000"
+            itemNum: 1
+      - result: False
+      - assertMsg: "商品信息不存在"
+      - responseCode: 3040004
+      - title: "传入不存在的SKU码，商品添加失败"
+  - case_id: add_product_by_correct_user_03
+    #正确的用户，添加的商品列表中有正确的和不正确的
+    case_tag: normal
+    data:
+      - items:
+          - skuCode: "928"
+            itemNum: 1
+          - skuCode: "00001"
+            itemNum: 1
+      - result: False
+      - assertMsg: "商品信息不存在"
+      - responseCode: 3040004
+      - title: "同时传入存在和不存在的SKU码，商品添加失败"
+  - case_id: add_product_by_correct_user_04
+    #正确的用户，商品列表为空，返回成功
+    case_tag: normal
+    data:
+      - items:
+      - result: True
+      - asserMsg: "ok"
+      - responseCode: 0
+      - title: "添加商品列表传入空值，返回成功"
+
+
+
