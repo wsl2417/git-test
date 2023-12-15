@@ -49,7 +49,8 @@ class TestStoreInfo:
                 update_data[key] = value
         else:
             logger.info("门店信息没有更新")
-        step_update(update_data)
+        with allure.step("发送更新门店信息请求"):
+            step_update(update_data)
         result = store.modify_store_info(token, update_data)
         assert result.success == expect_result, result.error
         step_assert(expect_code, result.code)
