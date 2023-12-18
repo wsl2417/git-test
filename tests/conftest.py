@@ -122,9 +122,9 @@ def get_store_success(login_fixture):
     return token, result_object.result['storeId']
 
 
-
 def get_goods_info():
     pass
+
 
 @pytest.fixture(scope="session", autouse=False)
 def clear_report():
@@ -147,10 +147,10 @@ def testcase_data(request):
 
 if __name__ == "__main__":
     # print("base_data",CURR_PATH)
-    # result = get_test_data("login_example.yaml")
+    result = get_test_data("atomic_api_data.yaml")
     # result = login_fixture
     # print('yaml_data', login_data)
     # pytest.main()
     # demo(login_fixture)
     # account(login_fixture)
-    print("testest")
+    print(len(result['test_add_product_wrong_token']), result['test_add_product_wrong_token'])

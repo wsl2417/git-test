@@ -115,5 +115,72 @@ test_add_product_by_correct_user:
       - responseCode: 0
       - title: "添加商品列表传入空值，返回成功"
 
+test_add_product_wrong_token:
+  -
+    case_id: add_product_wrong_token_01
+    case_tag: normal
+    data:
+      #传入过期token,需要登入后再登出
+      - token:
+      - items:
+          - skuCode: "928"
+            itemNum: 1
+      - result: False
+      - assertMsg: "用户信息不存在"
+      - responseCode: 1010004
+      - title: "token过期，购物车添加失败"
+  - case_id: add_product_wrong_token_02
+    case_tag: normal
+    data:
+      #传入非法token添加失败
+      - token: "be106dc5445a4af3937dc60a6ef1ec2a"
+      - items:
+          - skuCode: "928"
+            itemNum: 1
+      - result: False
+      - assertMsg: "用户信息不存在"
+      - responseCode: 1010004
+      - title: "无效token，购物车添加失败"
+
+test_add_product_wrong_cart_id:
+  - case_id: add_product_wrong_cartId_01
+    case_tag: normal
+    #传入空购物车ID
+    data:
+      - cartId: ""
+      - items:
+          - skuCode: "928"
+            itemNum: 1
+      - result: False
+      - assertMsg: "购物车不存在"
+      - responseCode: 11101
+      - title: "传入空的购物车ID，购物车添加失败"
+
+  - case_id: add_product_wrong_cartId_02
+    case_tag: normal
+    #传入不合法的购物车ID
+    data:
+      - cartId: 321
+      - items:
+          - skuCode: "928"
+            itemNum: 1
+      - result: False
+      - assertMsg: "购物车不存在"
+      - responseCode: 11101
+      - title: "传入非法的购物车ID，购物车添加失败"
+  - case_id: add_product_wrong_cartId_03
+    case_tag: normal
+    #传入非当前用户的购物车ID，比如目前测试用户的购物车ID为1，数据库中购物车1，3，4都是存在的，传入3，后续需要通过数据库查询制造这里传入的参数
+    data:
+      - cartId: "3"
+      - items:
+          - skuCode: "928"
+            itemNum: 1
+      - result: False
+      - assertMsg: "没有操作该购物车的权限"
+      - responseCode: 11103
+      - title: "传入没有操作权限的购物车ID，购物车添加失败"
+
+
 
 
