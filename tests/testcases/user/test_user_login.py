@@ -27,7 +27,7 @@ def step_2(expect_code, response_code):
 def load_step(username, expect_result, expect_code, expect_msg):
     logger.debug(
         "用户名:{}, 期望结果: {}, 期望返回码: {}, 期望消息: {}".format(username, expect_result,
-                                                                                expect_code, expect_msg))
+                                                                       expect_code, expect_msg))
 
 
 @allure.severity(allure.severity_level.CRITICAL)
@@ -82,7 +82,14 @@ class TestUserLogin:
     # def test_change_password(self):
     #     pass
 
+    # from pytest_lazyfixture import lazy_fixture
+    #
+    # @pytest.mark.parametrize("param", [pytest.param(lazy_fixture("get_in_data"))])
+    # # def test_user_login(self, username, password, expect_result, expect_msg, expect_code, title):
+    # def test_user_login(self, param):
+    #     logger.info("param{}".format(param))
+
 
 if __name__ == "__main__":
     pytest.main(
-        ['tests/testcases/user/test_user_login.py', '-s', '-W', 'ignore:Module already imported:pytest.PytestWarning'])
+        ['tests/testcases/user/test_user_login.py::test_user_login', '-s', '-W', 'ignore:Module already imported:pytest.PytestWarning'])

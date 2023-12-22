@@ -32,7 +32,7 @@ class Logger:
             datefmt='%Y-%m-%d  %H:%M:%S',
             log_colors=log_color_config
         )
-        self.file_logger = logging.FileHandler(self.log_name, mode="a", encoding="UTF-8")
+        self.file_logger = logging.FileHandler(self.log_name, mode="w+", encoding="UTF-8")
         self.console = logging.StreamHandler()
         self.console.setLevel(logging.DEBUG)
         self.console.setFormatter(self.console_formatter)

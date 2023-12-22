@@ -1,6 +1,6 @@
 import json
 from danta_common.api.trading_center.cart import cart
-from tests.stepdefine.phase_response import phase
+from Libraries.other_tools.phase_response import phase
 
 
 def add_cart(token, cartId, items):
@@ -9,25 +9,11 @@ def add_cart(token, cartId, items):
     items: 列表，长度支持0-N
     "items": [
     {
-      "id": "string",
-      "spuCode": "string",
       "skuCode": "string",
-      "name": "string",
-      "price": "string",
-      "imageUrls": "string",
-      "description": "string",
-      "attribute": "string",
-      "itemNum": 0,
-      "categoryIds": [
-        0
-      ],
-      "originalPrice": "string",
-      "standardNum": 0
-    }
+      "itemNum": int
   ]
     """
     payload = json.dumps({
-        "token": token,
         "cartId": cartId,
         "items": items
     })
@@ -39,3 +25,38 @@ def add_cart(token, cartId, items):
     result_object = phase.phase_res(res)
     return result_object
 
+
+def change_cart(token, cart_id, items):
+    """
+    测试变更购物车接口
+    """
+    # todo 是否要加入字段缺失的测试？目前值验证了字段为空，且和字段缺失返回的错误一样
+    payload = json.dumps({
+        "cartId": cart_id,
+        "items": items
+    })
+    header = {
+        'Content-Type': 'application/json',
+        'token': token
+    }
+    res = cart.change_cart(data=payload, headers=header)
+    result_object = phase.phase_res(res)
+    return result_object
+
+
+def get_cart_info(token, store_id, scene):
+    """
+    获取购物车列表，有参数正常，也有异常的场景
+    """
+    payload = json.dumps({
+        "token": token,
+        "storeId": store_id,
+        "scene": scene
+    })
+    header = {
+        'Content-Type': 'application/json',
+        'token': token
+    }
+    res = cart.get_cart(data=payload, headers=header)
+    result_object = phase.phase_res(res)
+    return result_object
