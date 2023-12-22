@@ -1,7 +1,8 @@
 import os.path
 
 from Libraries.read_data.get_yaml_data import data
-from Libraries.other_tools.setting import get_file_full_path,get_curr_path
+from Libraries.other_tools.setting import get_file_full_path, get_curr_path
+# from Libraries.log_generator.logger import LOG_PATH
 
 COMMON_CONFIG = data.get_yaml_data(get_file_full_path("\\danta_common\\config.yaml"))
 

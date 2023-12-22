@@ -1,6 +1,6 @@
 from danta_common.api.store import store
 import json
-from tests.stepdefine.phase_response import phase
+from Libraries.other_tools.phase_response import phase
 
 
 def get_base_info(token):
