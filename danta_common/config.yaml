@@ -1,13 +1,15 @@
-host: https://trade-testing.casamiel.cn
+host:
 
-base_username: test001
-base_password: Augmn@123456
+base_username:
+base_password:
+
+
+skip_case_tags: not-ready|not-run
 
 #db connection info of danta project
 mysql_connection:
   host: 192.168.0.21
   user: dev_casamiel
-  password: Vv7XaBvQagWIo7NB
-  database: dev_casamiel_db
+  password:
+  database: 
   port: 1433
-#   host:
