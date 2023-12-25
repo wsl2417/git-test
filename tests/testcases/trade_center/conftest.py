@@ -63,7 +63,7 @@ def compare_cart_items(origin_items, sub_items):
     # print("item_sku_list:{}, subitem_sku_list: {}".format(item_sku_list, subitem_sku_list))
     # 获取购物车商品列表与要更新类目的交集
     items_intersection = list(set(item_sku_list).intersection(set(subitem_sku_list)))
-    print("items_intersection: {}".format(items_intersection))
+    # print("items_intersection: {}".format(items_intersection))
     # 如果有交集，则删除购物车中交集的部分，否则不做操作
     remove_items = []
     # 默认购物车中没有待更新元素
@@ -113,8 +113,8 @@ def prepare_cart_items(token, cart_id, current_cart_result, test_items):
             logger.info("删除购物车中用以测试的商品")
             remove_result = remove_cart_success(token, cart_id, remove_items_by_sku)
     else:
-        with allure.step("购物车中不存在用以测试的商品"):
-            logger.info("购物车中不存在用以测试的商品")
+        with allure.step("购物车中不存在用以测试的商品， 测试商品信息: {}".format(test_items)):
+            logger.info("购物车中不存在用以测试的商品，测试商品信息: {}".format(test_items))
     # with allure.step("添加用以测试的商品到购物车"):
     # add_cart_success(token, cart_id, remove_items)
 
@@ -166,6 +166,7 @@ def add_cart_success(token, cart_id, items):
     else:
         with allure.step("添加购物车商品失败，返回结果是：{}".format(result_object.error)):
             logger.error("添加购物车商品失败，返回结果是：{}".format(result_object.error))
+    return result_object.success
 
 
 def init_items_num(items, number):
@@ -188,7 +189,9 @@ def init_items_num(items, number):
 if __name__ == "__main__":
     cart_items = [{'id': '162', 'spuCode': '605', 'skuCode': '928', 'name': '招牌蛋黄酥2只装', 'price': '19.60', 'imageUrls': 'https://img.casamiel.cn/product/200916110820313125.jpg' , 'description': '', 'attribute': '原味+云腿味', 'itemNum': 25, 'categoryIds': [64], 'originalPrice': '19.60', 'standardNum': 4},
                   {'id': '162', 'spuCode': '605', 'skuCode': '927', 'name': '招牌蛋黄酥2只装', 'price': '19.60', 'imageUrls': 'https://img.casamiel.cn/product/200916110820313125.jpg' , 'description': '', 'attribute': '原味+云腿味', 'itemNum': 25, 'categoryIds': [64], 'originalPrice': '19.60', 'standardNum': 4}]
-    test_items = [{'skuCode': '928', 'itemNum': 3}, {'skuCode': '927', 'itemNum': 2}]
+    # test_items = [{'skuCode': '928', 'itemNum': 3}, {'skuCode': '927', 'itemNum': 2}]
+    test_items = [{'skuCode': '#%$@12','itemNum': 2}]
+
     flag, remove_items = compare_cart_items(cart_items, test_items)
     print(remove_items)
     token = "b870f005ac084d0c8179cea7297d1779"

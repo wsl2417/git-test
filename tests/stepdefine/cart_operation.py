@@ -60,3 +60,37 @@ def get_cart_info(token, store_id, scene):
     res = cart.get_cart(data=payload, headers=header)
     result_object = phase.phase_res(res)
     return result_object
+
+
+def increase_cart_item(token, cart_id, items):
+    """
+    增加购物车商品数量,操作UI来看是每次增1
+    """
+    payload = json.dumps({
+        "cartId": cart_id,
+        "items": items
+    })
+    header = {
+        'Content-Type': 'application/json',
+        'token': token
+    }
+    res = cart.increase_cart(data=payload, headers=header)
+    result_object = phase.phase_res(res)
+    return result_object
+
+
+def decrease_cart_item(token, cart_id, items):
+    """
+    减少商品数量，操作UI是每次减一
+    """
+    payload = json.dumps({
+        "cartId": cart_id,
+        "items": items
+    })
+    header = {
+        'Content-Type': 'application/json',
+        'token': token
+    }
+    res = cart.decrease_cart(data=payload, headers=header)
+    result_object = phase.phase_res(res)
+    return result_object

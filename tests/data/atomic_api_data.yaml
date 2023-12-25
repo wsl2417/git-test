@@ -109,7 +109,7 @@ test_add_product_by_correct_user:
     #正确的用户，商品列表为空，返回成功
     case_tag: normal
     data:
-      - items:
+      - items: []
       - result: True
       - asserMsg: "ok"
       - responseCode: 0
@@ -309,6 +309,315 @@ test_change_cart_wrong_cart_id:
       - assertMsg: "没有操作该购物车的权限"
       - responseCode: 11103
       - title: "传入没有操作权限的购物车ID，变更购物车请求失败"
+
+test_increase_cart_by_correct_user:
+  - case_id: increase_cart_by_correct_user_01
+    case_tag: smoke
+    data:
+      - items:
+          - skuCode: "928"
+            itemNum: 2
+          - skuCode: "927"
+            itemNum: 2
+      - result: True
+      - assertMsg: "ok"
+      - responseCode: 0
+      - title: "增加多个购物车中已有的的商品数量==> 更新成功"
+  - case_id: increase_cart_by_correct_user_02
+    case_tag: smoke
+    data:
+      - items:
+          - skuCode: "928"
+            itemNum: 3
+      - result: False
+      - assertMsg: "购物车不存在该商品"
+      - responseCode: 400
+      - title: "增加购物车中未添加的商品信息==> 更新失败"
+  - case_id: increase_cart_by_correct_user_03
+    case_tag: smoke
+    data:
+      - items:
+          # 加上前置后置条件，比如setup中先把该商品删除，然后加入数量为1，teardown时再把新增的测试的商品删除
+          - skuCode: '#%$@12'
+            itemNum: 3
+      - result: False
+      - assertMsg: "商品信息不存在"
+      - responseCode: 400
+      - title: "增加购物车，填入不存在的商品类目==> 更新失败"
+  - case_id: increase_cart_by_correct_user_04
+    case_tag: not-ready
+    data:
+      - items:
+          # 功能上不允许商品数量减到0
+          - skuCode: "928"
+            itemNum: 0
+      - result: False
+      - assertMsg: "商品数量不能小于1"
+      - responseCode: 400
+      - title: "增加购物车中已有的商品数量为0==> 应该更新失败"
+  - case_id: increase_cart_by_correct_user_05
+    case_tag: not-ready
+    data:
+      - items:
+          # 功能上不允许商品数量小于0，但是接口上未做限制
+          - skuCode: "928"
+            itemNum: -1
+      - result: False
+      - assertMsg: "商品数量不能小于1"
+      - responseCode: 400
+      - title: "增加购物车中已有的商品数量为负数==> 应该更新失败"
+
+test_increase_cart_wrong_token:
+  - case_id: increase_cart_wrong_token_01
+    case_tag: normal
+    data:
+      #传入过期token,需要登入后再登出
+      - token:
+      - items:
+          - skuCode: "928"
+            itemNum: 1
+      - result: False
+      - assertMsg: "未授权"
+      - responseCode: 401
+      - title: "token过期，增加购物车请求失败"
+  - case_id: increase_cart_wrong_token_02
+    case_tag: normal
+    data:
+      #传入非法token添加失败
+      - token: "be106dc5445a4af3937dc60a6ef1ec2a"
+      - items:
+          - skuCode: "928"
+            itemNum: 1
+      - result: False
+      - assertMsg: "未授权"
+      - responseCode: 401
+      - title: "无效token，增加购物车请求失败"
+
+test_increase_cart_wrong_cart_id:
+  - case_id: increase_cart_wrong_cartId_01
+    case_tag: normal
+    #传入空购物车ID
+    data:
+      - cartId: ""
+      - items:
+          - skuCode: "928"
+            itemNum: 1
+      - result: False
+      - assertMsg: "购物车不存在"
+      - responseCode: 11101
+      - title: "传入空的购物车ID，增加购物车请求失败"
+
+  - case_id: increase_cart_wrong_cartId_02
+    case_tag: normal
+    #传入不合法的购物车ID
+    data:
+      - cartId: 321
+      - items:
+          - skuCode: "928"
+            itemNum: 1
+      - result: False
+      - assertMsg: "购物车不存在"
+      - responseCode: 11101
+      - title: "传入非法的购物车ID，增加购物车请求失败"
+  - case_id: increase_cart_wrong_cartId_03
+    case_tag: normal
+    #传入非当前用户的购物车ID，比如目前测试用户的购物车ID为1，数据库中购物车1，3，4都是存在的，传入3，后续需要通过数据库查询制造这里传入的参数
+    data:
+      - cartId: "3"
+      - items:
+          - skuCode: "928"
+            itemNum: 1
+      - result: False
+      - assertMsg: "没有操作该购物车的权限"
+      - responseCode: 11103
+      - title: "传入没有操作权限的购物车ID，增加购物车请求失败"
+
+test_decrease_cart_by_correct_user:
+  - case_id: decrease_cart_by_correct_user_01
+    case_tag: smoke
+    data:
+      - items:
+          - skuCode: "928"
+            itemNum: 1
+          - skuCode: "927"
+            itemNum: 1
+      - result: True
+      - assertMsg: "ok"
+      - responseCode: 0
+      - title: "减少多个购物车中已有的的商品数量==> 减少成功"
+  - case_id: decrease_cart_by_correct_user_02
+    case_tag: smoke
+    data:
+      - items:
+          - skuCode: "928"
+            itemNum: 3
+      - result: False
+      - assertMsg: "购物车不存在该商品"
+      - responseCode: 400
+      - title: "减少购物车中未添加的商品信息==> 减少失败"
+  - case_id: decrease_cart_by_correct_user_03
+    case_tag: smoke
+    data:
+      - items:
+          - skuCode: '#%$@12'
+            itemNum: 3
+      - result: False
+      - assertMsg: "商品信息不存在"
+      - responseCode: 400
+      - title: "减少购物车，填入不存在的商品类目==> 减少失败"
+  - case_id: decrease_cart_by_correct_user_04
+    case_tag: not-ready
+    data:
+      - items:
+          # 功能上不允许商品数量减到0
+          - skuCode: "928"
+            itemNum: 0
+      - result: False
+      - assertMsg: "商品数量不能小于1"
+      - responseCode: 400
+      - title: "增加购物车中已有的商品数量为0==> 应该更新失败"
+  - case_id: decrease_cart_by_correct_user_05
+    case_tag: not-ready
+    data:
+      - items:
+          # 功能上不允许商品数量小于0，但是接口上未做限制
+          - skuCode: "928"
+            itemNum: -1
+      - result: False
+      - assertMsg: "商品数量不能小于1"
+      - responseCode: 400
+      - title: "增加购物车中已有的商品数量为负数==> 应该更新失败"
+
+test_decrease_cart_wrong_token:
+  - case_id: decrease_cart_wrong_token_01
+    case_tag: normal
+    data:
+      #传入过期token,需要登入后再登出
+      - token:
+      - items:
+          - skuCode: "928"
+            itemNum: 1
+      - result: False
+      - assertMsg: "未授权"
+      - responseCode: 401
+      - title: "token过期，减少购物车请求失败"
+  - case_id: decrease_cart_wrong_token_02
+    case_tag: normal
+    data:
+      #传入非法token添加失败
+      - token: "be106dc5445a4af3937dc60a6ef1ec2a"
+      - items:
+          - skuCode: "928"
+            itemNum: 1
+      - result: False
+      - assertMsg: "未授权"
+      - responseCode: 401
+      - title: "无效token，减少购物车请求失败"
+
+test_decrease_cart_wrong_cart_id:
+  - case_id: decrease_cart_wrong_cartId_01
+    case_tag: normal
+    #传入空购物车ID
+    data:
+      - cartId: ""
+      - items:
+          - skuCode: "928"
+            itemNum: 1
+      - result: False
+      - assertMsg: "购物车不存在"
+      - responseCode: 11101
+      - title: "传入空的购物车ID，减少购物车请求失败"
+
+  - case_id: decrease_cart_wrong_cartId_02
+    case_tag: normal
+    #传入不合法的购物车ID
+    data:
+      - cartId: 321
+      - items:
+          - skuCode: "928"
+            itemNum: 1
+      - result: False
+      - assertMsg: "购物车不存在"
+      - responseCode: 11101
+      - title: "传入非法的购物车ID，减少购物车请求失败"
+  - case_id: decrease_cart_wrong_cartId_03
+    case_tag: normal
+    #传入非当前用户的购物车ID，比如目前测试用户的购物车ID为1，数据库中购物车1，3，4都是存在的，传入3，后续需要通过数据库查询制造这里传入的参数
+    data:
+      - cartId: "3"
+      - items:
+          - skuCode: "928"
+            itemNum: 1
+      - result: False
+      - assertMsg: "没有操作该购物车的权限"
+      - responseCode: 11103
+      - title: "传入没有操作权限的购物车ID，减少购物车请求失败"
+
+test_clear_cart_by_correct_user:
+  -
+    case_id: clear_cart_by_correct_user_01
+    case_tag: smoke
+    data:
+      - cartId: "5"
+      - result: True
+      - assertMsg: "ok"
+      - responseCode: 0
+      - title: "购物车有商品时，清空购物车 ==> 成功"
+
+  - case_id: clear_cart_by_correct_user_02
+    case_tag: smoke
+    data:
+      - cartId: "6"
+      - result: True
+      - assertMsg: "ok"
+      - responseCode: 0
+      - title: "购物车为空时，清空购物车 ==> 成功"
+
+  - case_id: clear_cart_by_correct_user_03
+    case_tag: smoke
+    data:
+      - cartId: "7"
+      - result: True
+      - assertMsg: "ok"
+      - responseCode: 0
+      - title: "购物车不存在时，清空购物车 ==> 失败"
+
+  - case_id: clear_cart_by_correct_user_04
+    case_tag: normal
+    data:
+      - cartId: "8"
+      - result: True
+      - assertMsg: "ok"
+      - responseCode: 0
+      - title: "购物车不存在时，清空购物车 ==> 失败"
+
+test_clear_cart_wrong_token:
+  - case_id: clear_cart_wrong_token_01
+    case_tag: normal
+    data:
+      #传入过期token,需要登入后再登出
+      - token:
+      - cartId: "5"
+      - result: False
+      - assertMsg: "未授权"
+      - responseCode: 401
+      - title: "token过期，清空购物车请求失败"
+
+  - case_id: clear_cart_wrong_token_02
+    case_tag: normal
+    data:
+      - token: "be106dc5445a4af3937dc60a6ef1ec2a"
+      - cartId: "5"
+      - result: False
+      - assertMsg: "未授权"
+      - responseCode: 401
+      - title: "无效token，清空购物车请求失败"
+
+
+
+
+
+
 
 
 

@@ -18,12 +18,13 @@ def common_assert(result_object, **kwargs):
     if expect_result:
         with allure.step("断言接口是否成功：期望值[{}], 实际值[{}]".format(expect_result, result_object.success)):
             assert result_object.success == expect_result, result_object.error
-    if expect_code:
-        with allure.step("断言接口返回码：期望值[{}], 实际值[{}]".format(expect_code, result_object.code)):
-            assert result_object.code == expect_code
     if expect_msg:
         with allure.step("断言接口返回消息：期望值[{}], 实际值[{}]".format(expect_msg, result_object.msg)):
             assert result_object.msg in expect_msg
+    if expect_code:
+        with allure.step("断言接口返回码：期望值[{}], 实际值[{}]".format(expect_code, result_object.code)):
+            assert result_object.code == expect_code
+
     # # 目前用在添加购物车后，查询购物车信息符合预期
     # if expect_data:
     #     with allure.step("断言接口返回消息：期望值[{}], 实际值[{}]".format(expect_data, result_object.result)):
