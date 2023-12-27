@@ -1,3 +1,6 @@
+from Libraries.log_generator.logger import logger
+
+
 def combine_case_data(origin_yaml_data, test_key):
     """
     讲读取的yaml数据解析成并返回pytest参数化所需要的数据格式
@@ -7,7 +10,7 @@ def combine_case_data(origin_yaml_data, test_key):
     """
     data_list = [i for i in origin_yaml_data[test_key]]
     case_data, case_tags, case_ids = _generate_param(data_list)
-    # print("case_data:",case_data)
+    logger.debug("case_data: {}".format(case_data))
     return case_data, case_ids
 
 
@@ -51,13 +54,15 @@ if __name__ == "__main__":
                                      {'case_id': 'user_login_02', 'case_tag': 'smoke',
                                       'data': [{'username': 'test0'}, {'password': 'Augmn@123456'}, {'result': False},
                                                {'assertMsg': '用户名或者登录密码错误'}, {'responseCode': 1010002},
-                                               {'title': '错误的用户名和正确的密码'}]}], 'test_user_logout': [
-        {'case_id': 'user_logout_01', 'case_tag': 'smoke',
-         'data': [{'username': 'test001'}, {'result': True}, {'assertMsg': ''}, {'responseCode': 0},
-                  {'title': '用户正常退出'}]}], 'test_get_base_info': [
-        {'case_id': 'get_base_info_01', 'case_tag': 'smoke',
-         'data': [{'result': True}, {'assertMsg': ''}, {'responseCode': 0}, {'title': '成功获取门店基本信息'}]}
-    ]}
+                                               {'title': '错误的用户名和正确的密码'}]}],
+                 'test_user_logout': [{'case_id': 'user_logout_01', 'case_tag': 'smoke',
+                                       'data': [{'username': 'test001'}, {'result': True}, {'assertMsg': ''},
+                                                {'responseCode': 0},
+                                                {'title': '用户正常退出'}]}],
+                 'test_decrease_cart_by_correct_user': [{'case_id': 'decrease_cart_by_correct_user_01',
+                                                         'case_tag': 'smoke', 'data': [{'skuCode': '!@#12', 'itemNum': 2}]}
+                                                        ]
+                 }
 
-    data, data_tag_map = combine_case_data(yaml_data, 'test_user_login')
-    print("data_tag_map is {}".format(data_tag_map))
+    data, ids = combine_case_data(yaml_data, 'test_decrease_cart_by_correct_user')
+    print("data is {}, ids is {}".format(data, ids))
