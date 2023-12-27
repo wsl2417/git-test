@@ -81,7 +81,7 @@ def increase_cart_item(token, cart_id, items):
 
 def decrease_cart_item(token, cart_id, items):
     """
-    减少商品数量，操作UI是每次减一
+    减少商品数量，UI是每次减一
     """
     payload = json.dumps({
         "cartId": cart_id,
@@ -92,5 +92,21 @@ def decrease_cart_item(token, cart_id, items):
         'token': token
     }
     res = cart.decrease_cart(data=payload, headers=header)
+    result_object = phase.phase_res(res)
+    return result_object
+
+
+def clear_cart(token, cart_id):
+    """
+    清空购物车
+    """
+    payload = json.dumps({
+        "cartId": cart_id
+    })
+    header = {
+        'Content-Type': 'application/json',
+        'token': token
+    }
+    res = cart.clear_cart(data=payload, headers=header)
     result_object = phase.phase_res(res)
     return result_object

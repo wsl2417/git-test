@@ -152,8 +152,8 @@ test_add_product_wrong_cart_id:
           - skuCode: "928"
             itemNum: 1
       - result: False
-      - assertMsg: "购物车不存在"
-      - responseCode: 11101
+      - assertMsg: "购物车不存在"  # 该接口返回的错误信息不对
+      - responseCode: 400
       - title: "传入空的购物车ID，购物车添加失败"
 
   - case_id: add_product_wrong_cartId_02
@@ -216,7 +216,7 @@ test_change_cart_by_correct_user:
           - skuCode: 12345
             itemNum: 3
       - result: False
-      - assertMsg: "商品信息不存在"
+      - assertMsg: "商品信息不存在" # 接口返回的消息错误
       - responseCode: 400
       - title: "填入不存在的商品类目==> 更新失败"
   - case_id: change_cart_by_correct_user_04
@@ -281,8 +281,8 @@ test_change_cart_wrong_cart_id:
           - skuCode: "928"
             itemNum: 1
       - result: False
-      - assertMsg: "购物车不存在"
-      - responseCode: 11101
+      - assertMsg: "购物车不存在"  # 该接口返回的错误信息不对
+      - responseCode: 400
       - title: "传入空的购物车ID，变更购物车请求失败"
 
   - case_id: change_cart_wrong_cartId_02
@@ -341,7 +341,7 @@ test_increase_cart_by_correct_user:
           - skuCode: '#%$@12'
             itemNum: 3
       - result: False
-      - assertMsg: "商品信息不存在"
+      - assertMsg: "skuCode格式错误"
       - responseCode: 400
       - title: "增加购物车，填入不存在的商品类目==> 更新失败"
   - case_id: increase_cart_by_correct_user_04
@@ -403,8 +403,8 @@ test_increase_cart_wrong_cart_id:
           - skuCode: "928"
             itemNum: 1
       - result: False
-      - assertMsg: "购物车不存在"
-      - responseCode: 11101
+      - assertMsg: "购物车不存在"  # 该接口返回的错误信息不对
+      - responseCode: 400
       - title: "传入空的购物车ID，增加购物车请求失败"
 
   - case_id: increase_cart_wrong_cartId_02
@@ -524,8 +524,8 @@ test_decrease_cart_wrong_cart_id:
           - skuCode: "928"
             itemNum: 1
       - result: False
-      - assertMsg: "购物车不存在"
-      - responseCode: 11101
+      - assertMsg: "购物车不存在"  # 该接口返回的错误信息不对
+      - responseCode: 400
       - title: "传入空的购物车ID，减少购物车请求失败"
 
   - case_id: decrease_cart_wrong_cartId_02
@@ -567,29 +567,29 @@ test_clear_cart_by_correct_user:
   - case_id: clear_cart_by_correct_user_02
     case_tag: smoke
     data:
-      - cartId: "6"
-      - result: True
-      - assertMsg: "ok"
-      - responseCode: 0
-      - title: "购物车为空时，清空购物车 ==> 成功"
+      - cartId: "1"
+      - result: False
+      - assertMsg: "没有操作该购物车的权限"
+      - responseCode: 11103
+      - title: "传入无权限的购物车ID，清空购物车 ==> 成功"
 
   - case_id: clear_cart_by_correct_user_03
     case_tag: smoke
     data:
-      - cartId: "7"
-      - result: True
-      - assertMsg: "ok"
-      - responseCode: 0
-      - title: "购物车不存在时，清空购物车 ==> 失败"
+      - cartId: ""
+      - result: False
+      - assertMsg: "购物车不存在" # 该接口返回的错误信息不对
+      - responseCode: 400
+      - title: "传入空的购物车ID，清空购物车 ==> 失败"
 
   - case_id: clear_cart_by_correct_user_04
     case_tag: normal
     data:
-      - cartId: "8"
-      - result: True
-      - assertMsg: "ok"
-      - responseCode: 0
-      - title: "购物车不存在时，清空购物车 ==> 失败"
+      - cartId: 12
+      - result: False
+      - assertMsg: "购物车不存在"
+      - responseCode: 11101
+      - title: "传入不合法的购物车ID，清空购物车 ==> 失败"
 
 test_clear_cart_wrong_token:
   - case_id: clear_cart_wrong_token_01

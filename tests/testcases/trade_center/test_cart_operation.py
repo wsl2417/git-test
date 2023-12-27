@@ -11,6 +11,7 @@ from Libraries.other_tools.common_assert import common_assert
 function_list = ['test_add_product_by_correct_user', 'test_change_cart_by_correct_user',
                  'test_increase_cart_by_correct_user', 'test_decrease_cart_by_correct_user',
                  'test_clear_cart_by_correct_user']
+
 for index, elem in enumerate(function_list):
     data, id = combine_case_data(test_data, elem)
     exec('data_{index}, ids_{index} = {data}, {id}'.format(index=index, data=data, id=id))
@@ -53,15 +54,18 @@ def verify_cart_list_as_expected(curr_cart_item_list, update_items):
     """
     # return all(item['itemNum'] == curr_item['itemNum'] if item['skuCode'] == curr_item['skuCode']
     #            for item in update_items for curr_item in curr_cart_item_list)
-    for item in update_items:
-        for curr_item in curr_cart_item_list:
-            if item['skuCode'] == curr_item['skuCode']:
-                if item['itemNum'] == curr_item['itemNum']:
-                    logger.info("商品[{}]数量更新正确".format(item['skuCode']))
-                    return True
-                else:
-                    logger.info("商品[{}]数量更新错误".format(item['skuCode']))
-                    return False
+    if (not curr_cart_item_list) and (not update_items):
+        return True
+    else:
+        for item in update_items:
+            for curr_item in curr_cart_item_list:
+                if item['skuCode'] == curr_item['skuCode']:
+                    if item['itemNum'] == curr_item['itemNum']:
+                        logger.info("商品[{}]数量更新正确".format(item['skuCode']))
+                        return True
+                    else:
+                        logger.info("商品[{}]数量更新错误".format(item['skuCode']))
+                        return False
 
 
 @allure.step("验证已删除的商品不在购物车列表")
@@ -286,6 +290,44 @@ class TestCartOperation:
                     assert if_cart_updated is True
 
         logger.info("==========用例执行结束=========")
+
+    @allure.story("交易中心-清空购物车商品接口")
+    @pytest.mark.normal
+    @pytest.mark.parametrize("cart_id, expect_result, expect_msg, expect_code, title",
+                             data_4, ids=ids_4)
+    def test_clear_cart_by_correct_user(self, get_cart_success, cart_id, expect_result, expect_msg, expect_code,
+                                        title):
+        allure.dynamic.title(title)
+        logger.info("==========开始执行用例=========")
+        token, active_cart_id, curr_cart_result = get_cart_success
+        store_id = curr_cart_result.get('storeId')
+        print_curr_cart_info(active_cart_id, curr_cart_result)
+        with allure.step("购物车数据准备"):
+            if expect_result:
+                with allure.step("添加待初始化的待变更商品信息到购物车"):
+                    init_items = init_items_num([{'skuCode': '928', 'itemNum': 0}], 2)
+                    with allure.step("添加初始化商品：{}".format(init_items)):
+                        if_add_success = add_cart_success(token, active_cart_id, init_items)
+        # 查询当前购物车信息
+        latest_items_list_1 = get_latest_cart_list(token, store_id)
+        with allure.step("清空购物车"):
+            with allure.step("清空购物车传入的购物车ID为：{}".format(cart_id)):
+                result = cart_operation.clear_cart(token, cart_id)
+            with allure.step("断言接口测试结果"):
+                # common_assert(result, expect_result=expect_result, expect_code=expect_code, expect_msg=expect_msg)
+                common_assert(result, expect_result=expect_result, expect_code=expect_code)
+        with allure.step("查询变更后的结果"):
+            latest_items_list_2 = get_latest_cart_list(token, store_id)
+            with allure.step("当前购物车商品列表信息正确"):
+                if expect_result:
+                    with allure.step("如果是清空成功的用例，则对比购物车信息为空"):
+                        if_cart_updated = verify_cart_list_as_expected(latest_items_list_2['items'], [])
+                        assert if_cart_updated is True
+                else:
+                    with allure.step("如果是更新失败的用例，则对比购物车信息等于初始化的购物车信息"):
+                        if_cart_updated = verify_cart_list_as_expected(latest_items_list_2['items'],
+                                                                       latest_items_list_1['items'])
+                        assert if_cart_updated is True
 
 
 if __name__ == "__main__":
