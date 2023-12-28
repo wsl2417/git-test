@@ -110,3 +110,38 @@ def clear_cart(token, cart_id):
     res = cart.clear_cart(data=payload, headers=header)
     result_object = phase.phase_res(res)
     return result_object
+
+
+def remove_cart(token, cart_id, items):
+    """
+    移除指定商品
+    """
+    payload = json.dumps({
+        "cartId": cart_id,
+        "items": items
+    })
+    header = {
+        'Content-Type': 'application/json',
+        'token': token
+    }
+    res = cart.remove_cart(data=payload, headers=header)
+    result_object = phase.phase_res(res)
+    return result_object
+
+
+def exchange_cart(token, cart_id, old_items, new_items):
+    """
+    变更商品类目，新规格替换旧规格
+    """
+    payload = json.dumps({
+        "cartId": cart_id,
+        "oldItems": old_items,
+        "newItems": new_items
+    })
+    header = {
+        'Content-Type': 'application/json',
+        'token': token
+    }
+    res = cart.exchange_cart(data=payload, headers=header)
+    result_object = phase.phase_res(res)
+    return result_object

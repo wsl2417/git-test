@@ -34,7 +34,7 @@ class Cart(RestClient):
         return self.post("/casamiel/api/trade/seller/cart/decreaseCart", **kwargs)
 
     def exchange_cart(self, **kwargs):
-        return self.post("/casamiel/api/trade/seller/cart/decreaseCart", **kwargs)
+        return self.post("/casamiel/api/trade/seller/cart/exchangeCart", **kwargs)
 
     def increase_cart(self, **kwargs):
         return self.post("/casamiel/api/trade/seller/cart/increaseCart", **kwargs)

@@ -53,7 +53,11 @@ def get_cart_success(get_store_success, scene="cashier"):
 
 def compare_cart_items(origin_items, sub_items):
     """
+    用于对比购物车列表和待更新的商品信息列表是否有交集
     cart_items = [{'skuCode':'11','spuCode':'102'},{'skuCode': '12','spuCode':'103'}]
+    ：param origin_items: 购物车商品列表
+    ：param sub_items: 待更新的商品列表
+    ：return: flag: 是否有交集，remove_items: 交集的skuCode列表
     """
     origin_items = sorted(origin_items, key=lambda x: x['skuCode'])
     sub_items = sorted(sub_items, key=lambda x: x['skuCode'])
