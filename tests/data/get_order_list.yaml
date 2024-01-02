@@ -1,0 +1,9 @@
+test_get_order_list:
+  -
+    case_id: get_order_list_01
+    case_tag: smoke
+    data:
+      - result: False
+      - assertMsg: ""
+      - responseCode: 0
+      - title: "获取挂单列表数据"

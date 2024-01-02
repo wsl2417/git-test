@@ -30,6 +30,7 @@ def get_test_data(yaml_file_name) -> dict:
 #
 # login_data = get_test_data("user/login_example.yaml")
 test_data = get_test_data("atomic_api_data.yaml")
+test_get_data = get_test_data("get_order_list.yaml")
 
 
 # def pytest_configure(config):

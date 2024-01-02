@@ -1,7 +1,7 @@
-host:
+host: https://trade-dev.casamiel.cn
 
-base_username:
-base_password:
+base_username: test001
+base_password: 123456
 
 
 skip_case_tags: not-ready|not-run
