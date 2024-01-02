@@ -936,6 +936,100 @@ test_exchange_cart_wrong_cart_id:
       - title: "传入没有操作权限的购物车ID，更换商品规格请求失败"
 
 
+test_get_cart_info_by_correct_user:
+  -
+    #该测试集中只测试单个接口功能，一整条线路的场景测试放在scenario_data.yaml中去加
+    case_id: get_cart_by_correct_user_01
+    case_tag: smoke
+    data:
+      - scene: "cashier"
+      - result: True
+      - asserMsg: "ok"
+      - responseCode: 0
+      - title: "获取购物车信息成功"
+  - case_id: get_cart_by_correct_user_02
+    #正确的用户，添加不存在、{错误数量的商品目前没有校验}
+    case_tag: normal
+    data:
+      - scene: 123
+      - result: False
+      - assertMsg: "场景错误"
+      - responseCode: 11105
+      - title: "传入不符合类型的支付场景码，获取购物车信息失败"
+  - case_id: get_cart_by_correct_user_03
+    #正确的用户，添加的商品列表中有正确的和不正确的
+    case_tag: normal
+    data:
+      - scene: "cashier1"
+      - result: False
+      - assertMsg: "场景错误"
+      - responseCode: 11105
+      - title: "传入错误的场景码，获取购物车信息失败"
+  - case_id: get_cart_by_correct_user_04
+    #正确的用户，商品列表为空，返回成功
+    case_tag: normal
+    data:
+      - scene: ""
+      - result: False
+      - asserMsg: "场景错误"
+      - responseCode: 11105
+      - title: "支付场景填入空值，获取购物车信息失败"
+
+test_get_cart_info_wrong_token:
+  -
+    case_id: get_cart_wrong_token_01
+    case_tag: normal
+    data:
+      #传入过期token,需要登入后再登出
+      - token:
+      - scene: "cashier"
+      - result: False
+      - assertMsg: "未授权"
+      - responseCode: 401
+      - title: "token过期，获取购物车信息失败"
+  - case_id: get_cart_wrong_token_02
+    case_tag: normal
+    data:
+      #传入非法token添加失败
+      - token: "be106dc5445a4af3937dc60a6ef1ec2a"
+      - scene: "cashier"
+      - result: False
+      - assertMsg: "未授权"
+      - responseCode: 401
+      - title: "无效token，获取该购物车信息失败"
+
+test_get_cart_info_wrong_store_id:
+  - case_id: get_cart_wrong_storeId_01
+    case_tag: normal
+    #传入空购物车ID
+    data:
+      - storeId: ""
+      - scene: "cashier"
+      - result: False
+      - assertMsg: "购物车不存在"  # 该接口返回的错误信息不对
+      - responseCode: 400
+      - title: "传入空的门店ID，获取购物车信息失败"
+
+  - case_id: get_cart_wrong_storeId_02
+    case_tag: normal
+    #传入不合法的购物车ID
+    data:
+      - storeId: 123
+      - scene: "cashier"
+      - result: False
+      - assertMsg: "因服务器问题无法使用，请联系 IT 部门处理"
+      - responseCode: 500
+      - title: "传入非法的门店ID，获取购物车信息失败"
+  - case_id: get_cart_wrong_storeId_03
+    case_tag: normal
+    data:
+      - storeId: "3"
+      - scene: "cashier"
+      - result: False
+      - assertMsg: "因服务器问题无法使用，请联系 IT 部门处理"
+      - responseCode: 500
+      - title: "传入没有操作权限的购物车ID，获取购物车信息失败"
+
 
 
 

@@ -11,7 +11,7 @@ from Libraries.other_tools.common_assert import common_assert
 function_list = ['test_add_product_by_correct_user', 'test_change_cart_by_correct_user',
                  'test_increase_cart_by_correct_user', 'test_decrease_cart_by_correct_user',
                  'test_clear_cart_by_correct_user', 'test_remove_cart_by_correct_user',
-                 'test_exchange_cart_by_correct_user']
+                 'test_exchange_cart_by_correct_user', 'test_get_cart_info_by_correct_user']
 
 for index, elem in enumerate(function_list):
     data, id = combine_case_data(test_data, elem)
@@ -341,6 +341,8 @@ class TestCartOperation:
                                                                        latest_items_list_1['items'])
                         assert if_cart_updated is True
 
+        logger.info("==========用例执行结束=========")
+
     @allure.story("交易中心-移除指定商品接口")
     @pytest.mark.smoke
     @allure.issue("https://www.teambition.com/project/623944d5cc091382e72ad9ed/bug/task/658bcabf7134313decfc1e80",
@@ -381,6 +383,8 @@ class TestCartOperation:
                                                                        latest_items_list_1['items'])
                         assert if_cart_updated is True
 
+        logger.info("==========用例执行结束=========")
+
     @allure.story("交易中心-更换商品规格接口")
     @pytest.mark.smoke
     @allure.issue("https://www.teambition.com/project/623944d5cc091382e72ad9ed/bug/task/658bf7bbd63d8eb240aef39a",
@@ -396,12 +400,6 @@ class TestCartOperation:
         token, cart_id, curr_cart_result = get_cart_success
         store_id = curr_cart_result.get('storeId')
         print_curr_cart_info(cart_id, curr_cart_result)
-        # if expect_result:
-        #     with allure.step("购物车数据准备"):
-        #         with allure.step("添加待初始化的待变更商品信息到购物车"):
-        #             init_items = init_items_num(old_items, 2)
-        #             with allure.step("添加初始化商品：{}".format(init_items)):
-        #                 if_add_success = add_cart_success(token, cart_id, init_items)
         with allure.step('变更购物车商品规格或数目'):
             with allure.step('旧的商品信息：{}, 新的商品信息：{}'.format(old_items, new_items)):
                 result = cart_operation.exchange_cart(token, cart_id, old_items, new_items)
@@ -421,6 +419,27 @@ class TestCartOperation:
                         if_cart_updated = verify_cart_list_as_expected(latest_items_list_2['items'],
                                                                        curr_cart_result['items'])
                         assert if_cart_updated is True
+
+        logger.info("==========用例执行结束=========")
+
+    @allure.story("交易中心-获取购物车信息接口")
+    @pytest.mark.smoke
+    # @allure.issue("https://www.teambition.com/project/623944d5cc091382e72ad9ed/bug/task/658bf7bbd63d8eb240aef39a",
+    # "[更换购物车商品API]oldItem没有校验")
+    @pytest.mark.parametrize("scene, expect_result, expect_msg, expect_code, title", data_7, ids=ids_7)
+    def test_get_cart_info_by_correct_user(self, get_store_success, scene, expect_result, expect_msg, expect_code,
+                                           title):
+        allure.dynamic.title(title)
+        logger.info("==========开始执行用例=========")
+        token, active_store_id = get_store_success
+        with allure.step("当前用户对应的门店ID是[{}]".format( active_store_id)):
+            logger.info("当前用户对应的门店ID是[{}]".format(active_store_id))
+        with allure.step('获取购物车信息列表'):
+            result = cart_operation.get_cart_info(token, active_store_id, scene)
+            with allure.step('断言接口测试结果'):
+                common_assert(result, expect_result=expect_result, expect_code=expect_code, expect_msg=expect_msg)
+
+        logger.info("==========用例执行结束=========")
 
 
 if __name__ == "__main__":
