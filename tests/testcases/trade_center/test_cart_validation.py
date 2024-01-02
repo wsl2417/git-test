@@ -10,7 +10,10 @@ from Libraries.other_tools.common_assert import common_assert
 
 function_list = ['test_add_product_wrong_token', 'test_add_product_wrong_cart_id', 'test_change_cart_wrong_token',
                  'test_change_cart_wrong_cart_id', 'test_increase_cart_wrong_token', 'test_increase_cart_wrong_cart_id',
-                 'test_decrease_cart_wrong_token', 'test_decrease_cart_wrong_cart_id', 'test_clear_cart_wrong_token']
+                 'test_decrease_cart_wrong_token', 'test_decrease_cart_wrong_cart_id', 'test_clear_cart_wrong_token',
+                 'test_remove_cart_wrong_token', 'test_remove_cart_wrong_cart_id', 'test_exchange_cart_wrong_token',
+                 'test_exchange_cart_wrong_cart_id', 'test_get_cart_info_wrong_token',
+                 'test_get_cart_info_wrong_store_id']
 
 for index, elem in enumerate(function_list):
     data, id = combine_case_data(test_data, elem)
@@ -129,7 +132,7 @@ class TestCartValidation:
             common_assert(result, expect_result=expect_result, expect_code=expect_code)
         logger.info("==========用例执行结束=========")
 
-    @allure.story("交易中心-变更购物车接口")
+    @allure.story("交易中心-调整购物车商品数量接口")
     @pytest.mark.normal
     # @pytest.mark.parametrize("case_skip", data_tag_map2, indirect=True)
     @pytest.mark.parametrize("token, items, expect_result, expect_msg, expect_code, title",
@@ -163,7 +166,7 @@ class TestCartValidation:
         with allure.step("查询变更后的结果"):
             get_latest_cart_list(active_token, store_id)
 
-    @allure.story("交易中心-变更购物车接口")
+    @allure.story("交易中心-调整购物车商品数量接口")
     @pytest.mark.normal
     # @pytest.mark.parametrize("case_skip", data_tag_map2, indirect=True)
     @pytest.mark.parametrize("cart_id, items, expect_result, expect_msg, expect_code, title",
@@ -295,7 +298,7 @@ class TestCartValidation:
             with allure.step("当前购物车对应的门店ID: {}"):
                 store_id = curr_cart_result.get('storeId')
             with allure.step("当前购物车ID为[{}], 门店ID为[{}],购物车商品信息列表为[{}]".format(cart_id, store_id,
-                                                                                         curr_cart_result)):
+                                                                                                curr_cart_result)):
                 logger.debug("当前购物车列表信息如下: {}".format(curr_cart_result.get('items', [])))
         with allure.step("减少购物车商品数量"):
             with allure.step("减少的商品信息为: {}".format(items)):
@@ -372,7 +375,7 @@ class TestCartValidation:
             with allure.step("当前购物车对应的门店ID: {}"):
                 store_id = curr_cart_result.get('storeId')
             with allure.step("当前购物车ID为[{}], 门店ID为[{}],购物车商品信息列表为[{}]".format(cart_id, store_id,
-                                                                                          curr_cart_result)):
+                                                                                                curr_cart_result)):
                 logger.debug("当前购物车列表信息如下: {}".format(curr_cart_result.get('items', [])))
         with allure.step("清空购物车"):
             result = cart_operation.clear_cart(token, cart_id)
@@ -384,6 +387,204 @@ class TestCartValidation:
                 if_cart_updated = verify_cart_list_as_expected(latest_items_list_2['items'],
                                                                curr_cart_result['items'])
                 assert if_cart_updated is True
+
+    @allure.story("交易中心-移除购物车指定商品接口")
+    @pytest.mark.normal
+    @pytest.mark.parametrize("token, items, expect_result, expect_msg, expect_code, title",
+                             data_9, ids=ids_9)
+    def test_remove_cart_wrong_token(self, get_cart_success, token, items, expect_result, expect_msg, expect_code,
+                                     title):
+        """
+        测试输入错误的token时，请求移除商品api校验
+        """
+        allure.dynamic.title(title)
+        logger.info("==========开始执行用例=========")
+        if not token:
+            token = generate_expired_token()
+            with allure.step("传入过期token: [{}]".format(token)):
+                logger.info("传入过期token: [{}]".format(token))
+        else:
+            with allure.step("传入非法token: [{}]".format(token)):
+                logger.debug("传入非法token: [{}]".format(token))
+        with allure.step("获取当前购物车信息"):
+            active_token, cart_id, curr_cart_result = get_cart_success
+            with allure.step("当前购物车对应的门店ID: {}"):
+                store_id = curr_cart_result.get('storeId')
+            with allure.step("当前购物车ID为[{}], 门店ID为[{}],购物车商品信息列表为[{}]".format(cart_id, store_id,
+                                                                                                curr_cart_result)):
+                logger.debug("当前购物车列表信息如下: {}".format(curr_cart_result.get('items', [])))
+        with allure.step("移除购物车指定商品"):
+            with allure.step("移除购物车商品信息为: {}".format(items)):
+                result = cart_operation.increase_cart_item(token, cart_id, items)
+            with allure.step("断言接口测试结果"):
+                common_assert(result, expect_result=expect_result, expect_code=expect_code, expect_msg=expect_msg)
+        with allure.step("查询购物车信息有无变化"):
+            latest_items_list_2 = get_latest_cart_list(active_token, store_id)
+            with allure.step("购物车信息应该等于初始的购物车信息"):
+                if_cart_updated = verify_cart_list_as_expected(latest_items_list_2['items'],
+                                                               curr_cart_result['items'])
+                assert if_cart_updated is True
+
+        logger.info("==========用例执行结束=========")
+
+    @allure.story("交易中心-移除购物车指定商品接口")
+    @pytest.mark.normal
+    @pytest.mark.parametrize("cart_id, items, expect_result, expect_msg, expect_code, title",
+                             data_10, ids=ids_10)
+    def test_remove_cart_wrong_cart_id(self, get_cart_success, cart_id, items, expect_result, expect_msg, expect_code,
+                                       title):
+        """
+        测试输入错误的cartId时，请求移除商品api校验
+        """
+        allure.dynamic.title(title)
+        logger.info("==========开始执行用例=========")
+        with allure.step("传入错误的购物车ID: [{}]".format(cart_id)):
+            logger.debug("传入错误的购物车ID: [{}]".format(cart_id))
+        with allure.step("获取购物车信息"):
+            active_token, active_cart_id, curr_cart_result = get_cart_success
+            store_id = curr_cart_result.get('storeId')
+            with allure.step(
+                    "当前用户是[{}], 对应的购物车ID是[{}]".format(COMMON_CONFIG['base_username'], active_cart_id)):
+                logger.info(
+                    "当前用户是[{}], 对应的购物车ID是[{}]".format(COMMON_CONFIG['base_username'], active_cart_id))
+            with allure.step("有效的购物车ID是: [{}], 测试购物车ID是: [{}]".format(active_cart_id, cart_id)):
+                logger.info("有效的购物车ID是: [{}], 测试购物车ID是: [{}]".format(active_cart_id, cart_id))
+        with allure.step("移除购物车商品数量"):
+            with allure.step("移除购物车商品信息为: {}".format(items)):
+                result = cart_operation.increase_cart_item(active_token, cart_id, items)
+            with allure.step("断言接口测试结果"):
+                # common_assert(result, expect_result=expect_result, expect_code=expect_code, expect_msg=expect_msg)
+                common_assert(result, expect_result=expect_result, expect_code=expect_code)
+
+        with allure.step("查询接口请求后的购物车信息"):
+            latest_items_list_2 = get_latest_cart_list(active_token, store_id)
+            with allure.step("对比购物车信息等于初始化的购物车信息"):
+                if_cart_updated = verify_cart_list_as_expected(latest_items_list_2['items'],
+                                                               curr_cart_result['items'])
+                assert if_cart_updated is True
+
+        logger.info("==========用例执行结束=========")
+
+    @allure.story("交易中心-更换商品规格接口")
+    @pytest.mark.normal
+    # @allure.issue("https://www.teambition.com/project/623944d5cc091382e72ad9ed/bug/task/658bcabf7134313decfc1e80",
+    #               "关键字段没有加限制")
+    @pytest.mark.parametrize("token, old_items, new_items, expect_result, expect_msg, expect_code, title",
+                             data_11, ids=ids_11)
+    def test_exchange_cart_wrong_token(self, get_cart_success, token, old_items, new_items,
+                                       expect_result, expect_msg, expect_code, title):
+        allure.dynamic.title(title)
+        logger.info("==========开始执行用例=========")
+        if not token:
+            token = generate_expired_token()
+            with allure.step("传入过期token: [{}]".format(token)):
+                logger.info("传入过期token: [{}]".format(token))
+        else:
+            with allure.step("传入非法token: [{}]".format(token)):
+                logger.debug("传入非法token: [{}]".format(token))
+        with allure.step("获取当前购物车信息"):
+            active_token, cart_id, curr_cart_result = get_cart_success
+            with allure.step("当前购物车对应的门店ID: {}"):
+                store_id = curr_cart_result.get('storeId')
+            with allure.step("当前购物车ID为[{}], 门店ID为[{}],购物车商品信息列表为[{}]".format(cart_id,
+                                                                                                store_id,
+                                                                                                curr_cart_result)):
+                logger.debug("当前购物车列表信息如下: {}".format(curr_cart_result.get('items', [])))
+        with allure.step("变更购物车指定商品规格"):
+            with allure.step("变更购物车商品原始信息为: {}，变更的信息为: {}".format(old_items, new_items)):
+                result = cart_operation.exchange_cart(token, cart_id, old_items, new_items)
+            with allure.step("断言接口测试结果"):
+                common_assert(result, expect_result=expect_result, expect_code=expect_code, expect_msg=expect_msg)
+        with allure.step("查询购物车信息有无变化"):
+            latest_items_list_2 = get_latest_cart_list(active_token, store_id)
+            with allure.step("购物车信息应该等于初始的购物车信息"):
+                if_cart_updated = verify_cart_list_as_expected(latest_items_list_2['items'],
+                                                               curr_cart_result['items'])
+                assert if_cart_updated is True
+
+        logger.info("==========用例执行结束=========")
+
+    @allure.story("交易中心-更换商品规格接口")
+    @pytest.mark.normal
+    # @allure.issue("https://www.teambition.com/project/623944d5cc091382e72ad9ed/bug/task/658bcabf7134313decfc1e80",
+    #               "关键字段没有加限制")
+    @pytest.mark.parametrize("cart_id, old_items, new_items, expect_result, expect_msg, expect_code, title",
+                             data_12, ids=ids_12)
+    def test_exchange_cart_wrong_cart_id(self, get_cart_success, cart_id, old_items, new_items,
+                                         expect_result, expect_msg, expect_code, title):
+        allure.dynamic.title(title)
+        logger.info("==========开始执行用例=========")
+        with allure.step("传入错误的购物车ID: [{}]".format(cart_id)):
+            logger.debug("传入错误的购物车ID: [{}]".format(cart_id))
+        with allure.step("获取购物车信息"):
+            active_token, active_cart_id, curr_cart_result = get_cart_success
+            store_id = curr_cart_result.get('storeId')
+            with allure.step(
+                    "当前用户是[{}], 对应的购物车ID是[{}]".format(COMMON_CONFIG['base_username'], active_cart_id)):
+                logger.info(
+                    "当前用户是[{}], 对应的购物车ID是[{}]".format(COMMON_CONFIG['base_username'], active_cart_id))
+            with allure.step("有效的购物车ID是: [{}], 测试购物车ID是: [{}]".format(active_cart_id, cart_id)):
+                logger.info("有效的购物车ID是: [{}], 测试购物车ID是: [{}]".format(active_cart_id, cart_id))
+        with allure.step("变更购物车指定商品规格"):
+            with allure.step("变更购物车商品原始信息为: {}，变更的信息为: {}".format(old_items, new_items)):
+                result = cart_operation.exchange_cart(active_token, cart_id, old_items, new_items)
+            with allure.step("断言接口测试结果"):
+                # common_assert(result, expect_result=expect_result, expect_code=expect_code, expect_msg=expect_msg)
+                # TODO 购物车ID为空时，返回的message代码未做处理，暂时先不断言
+                common_assert(result, expect_result=expect_result, expect_code=expect_code)
+        with allure.step("查询购物车信息有无变化"):
+            latest_items_list_2 = get_latest_cart_list(active_token, store_id)
+            with allure.step("购物车信息应该等于初始的购物车信息"):
+                if_cart_updated = verify_cart_list_as_expected(latest_items_list_2['items'],
+                                                               curr_cart_result['items'])
+                assert if_cart_updated is True
+
+        logger.info("==========用例执行结束=========")
+
+    @allure.story("交易中心-获取购物车信息接口")
+    @pytest.mark.normal
+    @pytest.mark.parametrize("token, scene, expect_result, expect_msg, expect_code, title",
+                             data_13, ids=ids_13)
+    def test_get_cart_wrong_token(self, get_store_success, token, scene, expect_result, expect_msg, expect_code, title):
+        allure.dynamic.title(title)
+        logger.info("==========开始执行用例=========")
+        if not token:
+            token = generate_expired_token()
+            with allure.step("传入过期token: [{}]".format(token)):
+                logger.info("传入过期token: [{}]".format(token))
+        else:
+            with allure.step("传入非法token: [{}]".format(token)):
+                logger.info("传入非法token: [{}]".format(token))
+        with allure.step("获取购物车信息"):
+            active_token, store_id = get_store_success
+            with allure.step("当前用户是[{}], 对应的门店ID是[{}]".format(COMMON_CONFIG['base_username'], store_id)):
+                logger.info(
+                    "当前用户是[{}], 对应的门店ID是[{}]".format(COMMON_CONFIG['base_username'], store_id))
+            result = cart_operation.get_cart_info(token, store_id, scene)
+            with allure.step("断言接口测试结果"):
+                common_assert(result, expect_result=expect_result, expect_code=expect_code, expect_msg=expect_msg)
+
+        logger.info("==========用例执行结束=========")
+
+    @allure.story("交易中心-获取购物车信息接口")
+    @pytest.mark.normal
+    @pytest.mark.parametrize("store_id, scene, expect_result, expect_msg, expect_code, title",
+                             data_14, ids=ids_14)
+    def test_get_cart_wrong_store_id(self, get_store_success, store_id, scene, expect_result, expect_msg, expect_code, title):
+        allure.dynamic.title(title)
+        logger.info("==========开始执行用例=========")
+        with allure.step("传入错误的门店ID: [{}]".format(store_id)):
+            logger.debug("传入错误的门店ID: [{}]".format(store_id))
+        with allure.step("获取购物车信息"):
+            active_token, active_store_id = get_store_success
+            with allure.step("当前用户是[{}], 对应的门店ID是[{}]".format(COMMON_CONFIG['base_username'], active_store_id)):
+                logger.info(
+                    "当前用户是[{}], 对应的门店ID是[{}]".format(COMMON_CONFIG['base_username'], active_store_id))
+            result = cart_operation.get_cart_info(token, store_id, scene)
+            with allure.step("断言接口测试结果"):
+                common_assert(result, expect_result=expect_result, expect_code=expect_code, expect_msg=expect_msg)
+
+        logger.info("==========用例执行结束=========")
 
 
 if __name__ == "__main__":

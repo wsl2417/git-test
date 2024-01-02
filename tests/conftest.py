@@ -215,4 +215,4 @@ if __name__ == "__main__":
     # pytest.main()
     # demo(login_fixture)
     # account(login_fixture)
-    print(len(result['test_add_product_wrong_token']), result['test_add_product_wrong_token'])
+    print(len(result['test_exchange_cart_by_correct_user']), result['test_exchange_cart_by_correct_user'][3])
