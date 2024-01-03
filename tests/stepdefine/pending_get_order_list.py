@@ -1,6 +1,6 @@
 import json
 
-from danta_common.api.pendingorder import pending
+from danta_common.api.pendingorder import pending_order
 from Libraries.other_tools.phase_response import phase
 
 
@@ -13,9 +13,8 @@ def pending_order_list(token, storeId):
     header = {
         'Content-Type': 'application/json'
     }
-    # user = User()
-    res = pending.get_order_list(data=payload, headers=header)
-    # res = requests.request("POST", url, headers=header, data=payload)
+
+    res = pending_order.get_order_list(data=payload, headers=header)
     result_object = phase.phase_res(res.text)
 
     return result_object
