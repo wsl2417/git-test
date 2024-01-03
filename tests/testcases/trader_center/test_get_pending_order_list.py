@@ -18,7 +18,7 @@ def  step_assert(expect_code,response_code):
 @allure.severity(allure.severity_level.CRITICAL)
 @allure.epic("蛋挞平台接口测试")
 @allure.feature("点餐收银")
-class TestUserLogin:
+class TestPendingOrder:
     @allure.story("获取挂单列表")
     @pytest.mark.smoke
     @pytest.mark.parametrize("expect_result, expect_msg, expect_code, title", ifo_data, ids=ids)
