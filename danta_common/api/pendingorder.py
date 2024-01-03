@@ -6,7 +6,7 @@ api_root_url = COMMON_CONFIG["host"]
 
 class PendingOrder(RestClient):
     def __init__(self, api_root_url):
-        super(PenDingOrder, self).__init__(api_root_url)
+        super(PendingOrder, self).__init__(api_root_url)
 
     def get_order_list(self, **kwargs):
         return self.post("/casamiel/api/trade/seller/pending/getOrderList", **kwargs)

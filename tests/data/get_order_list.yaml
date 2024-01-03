@@ -1,4 +1,4 @@
-test_get_order_list:
+test_get_order_list_pass:
   -
     case_id: get_order_list_01
     case_tag: smoke
